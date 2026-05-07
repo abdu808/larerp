@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\OrganizationProfiles\Schemas;
 
+use Closure;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -50,15 +51,32 @@ class OrganizationProfileForm
                     ->required()
                     ->default('#334155'),
                 Textarea::make('settings')
+                    ->rules([self::validJsonRule()])
                     ->label('إعدادات JSON')
                     ->formatStateUsing(fn ($state): string => json_encode($state ?? [], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE))
-                    ->dehydrateStateUsing(fn (?string $state): array => json_decode($state ?: '[]', true) ?: [])
+                    ->dehydrateStateUsing(fn (?string $state): array => json_decode($state ?: '[]', true))
                     ->columnSpanFull(),
                 Textarea::make('active_modules')
+                    ->rules([self::validJsonRule()])
                     ->label('الموديولات المفعلة JSON')
                     ->formatStateUsing(fn ($state): string => json_encode($state ?? [], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE))
-                    ->dehydrateStateUsing(fn (?string $state): array => json_decode($state ?: '[]', true) ?: [])
+                    ->dehydrateStateUsing(fn (?string $state): array => json_decode($state ?: '[]', true))
                     ->columnSpanFull(),
             ]);
+    }
+
+    private static function validJsonRule(): Closure
+    {
+        return function (string $attribute, mixed $value, Closure $fail): void {
+            if ($value === null || $value === '') {
+                return;
+            }
+
+            $decoded = is_string($value) ? json_decode($value, true) : null;
+
+            if (! is_string($value) || json_last_error() !== JSON_ERROR_NONE || ! is_array($decoded)) {
+                $fail('The :attribute field must contain a valid JSON object or array.');
+            }
+        };
     }
 }

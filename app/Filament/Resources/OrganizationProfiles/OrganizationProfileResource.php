@@ -28,9 +28,25 @@ class OrganizationProfileResource extends Resource
 
     protected static ?int $navigationSort = 10;
 
+    public static function canViewAny(): bool
+    {
+        return auth()->user()?->can('settings.view') ?? false;
+    }
+
     public static function canCreate(): bool
     {
-        return OrganizationProfile::query()->count() === 0;
+        return (auth()->user()?->can('settings.manage') ?? false)
+            && OrganizationProfile::query()->count() === 0;
+    }
+
+    public static function canEdit($record): bool
+    {
+        return auth()->user()?->can('settings.manage') ?? false;
+    }
+
+    public static function canDelete($record): bool
+    {
+        return false;
     }
 
     public static function form(Schema $schema): Schema
