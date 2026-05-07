@@ -24,6 +24,8 @@
 - [متطلبات البيئة](operations/environment-requirements-ar.md)
 - [تنظيم العمل بين القائد والوكلاء](operations/agent-orchestration-ar.md)
 - [استراتيجية Git والفروع](operations/git-workflow-ar.md)
+- [تجهيز Phase 1](operations/phase-1-bootstrap-ar.md)
+- [بوابات المراحل](operations/phase-gate-checklist-ar.md)
 
 ## حالة المشروع
 
