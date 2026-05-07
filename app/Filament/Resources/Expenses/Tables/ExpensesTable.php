@@ -2,8 +2,10 @@
 
 namespace App\Filament\Resources\Expenses\Tables;
 
+use App\Models\Expense;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class ExpensesTable
@@ -31,10 +33,17 @@ class ExpensesTable
                     ->sortable(),
                 TextColumn::make('status')
                     ->label('الحالة')
+                    ->badge()
+                    ->formatStateUsing(fn (string $state): string => Expense::STATUSES[$state] ?? $state)
                     ->searchable(),
             ])
             ->filters([
-                //
+                SelectFilter::make('status')
+                    ->label('الحالة')
+                    ->options(Expense::STATUSES),
+                SelectFilter::make('payment_method')
+                    ->label('طريقة الدفع')
+                    ->options(Expense::PAYMENT_METHODS),
             ])
             ->recordActions([
                 EditAction::make(),

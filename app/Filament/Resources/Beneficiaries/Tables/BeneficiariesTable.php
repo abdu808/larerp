@@ -2,10 +2,12 @@
 
 namespace App\Filament\Resources\Beneficiaries\Tables;
 
+use App\Models\Beneficiary;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class BeneficiariesTable
@@ -17,15 +19,25 @@ class BeneficiariesTable
                 TextColumn::make('full_name')->label('الاسم')->searchable(['first_name', 'father_name', 'grandfather_name', 'family_name']),
                 TextColumn::make('national_id')->label('رقم الهوية')->searchable(),
                 TextColumn::make('family.name')->label('العائلة')->searchable(),
-                TextColumn::make('gender')->label('الجنس')->badge(),
+                TextColumn::make('gender')
+                    ->label('الجنس')
+                    ->badge()
+                    ->formatStateUsing(fn (?string $state): string => Beneficiary::genderLabelFor($state))
+                    ->color(fn (?string $state): string => $state === 'female' ? 'danger' : 'info'),
                 TextColumn::make('phone')->label('الجوال')->searchable(),
                 TextColumn::make('relationship_to_guardian')->label('صلة القرابة')->searchable(),
+                TextColumn::make('social_cases_count')->label('الحالات')->counts('socialCases')->sortable(),
                 IconColumn::make('is_primary_contact')->label('تواصل أساسي')->boolean(),
                 TextColumn::make('created_at')->label('أضيف في')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->filters([
+                SelectFilter::make('family_id')->label('العائلة')->relationship('family', 'name')->searchable()->preload(),
+                SelectFilter::make('gender')->label('الجنس')->options(Beneficiary::GENDER_OPTIONS),
+                SelectFilter::make('marital_status')->label('الحالة الاجتماعية')->options(Beneficiary::MARITAL_STATUS_OPTIONS),
+            ])
             ->recordActions([
                 EditAction::make(),
-                DeleteAction::make(),
+                DeleteAction::make()->hidden(fn (Beneficiary $record): bool => ! $record->canBeDeleted()),
             ]);
     }
 }

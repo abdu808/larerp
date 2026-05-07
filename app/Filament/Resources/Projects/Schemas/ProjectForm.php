@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Projects\Schemas;
 
+use App\Models\Project;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -36,13 +37,8 @@ class ProjectForm
                 Select::make('status')
                     ->label('الحالة')
                     ->required()
-                    ->default('draft')
-                    ->options([
-                        'draft' => 'مسودة',
-                        'active' => 'نشط',
-                        'paused' => 'متوقف مؤقتًا',
-                        'completed' => 'مكتمل',
-                    ]),
+                    ->default(Project::STATUS_DRAFT)
+                    ->options(Project::STATUSES),
                 TextInput::make('goal_amount')
                     ->label('المبلغ المستهدف')
                     ->required()
@@ -58,7 +54,8 @@ class ProjectForm
                 DatePicker::make('starts_on')
                     ->label('تاريخ البداية'),
                 DatePicker::make('ends_on')
-                    ->label('تاريخ النهاية'),
+                    ->label('تاريخ النهاية')
+                    ->rule('after_or_equal:starts_on'),
                 Toggle::make('is_featured')
                     ->label('مميز')
                     ->default(false),

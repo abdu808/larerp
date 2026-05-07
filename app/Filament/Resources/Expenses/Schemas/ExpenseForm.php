@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Expenses\Schemas;
 
+use App\Models\Expense;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -29,6 +30,7 @@ class ExpenseForm
                 TextInput::make('amount')
                     ->label('المبلغ')
                     ->numeric()
+                    ->minValue(0.01)
                     ->required(),
                 DatePicker::make('expense_date')
                     ->label('تاريخ المصروف')
@@ -36,12 +38,7 @@ class ExpenseForm
                     ->required(),
                 Select::make('payment_method')
                     ->label('طريقة الدفع')
-                    ->options([
-                        'cash' => 'نقدي',
-                        'bank_transfer' => 'تحويل بنكي',
-                        'card' => 'بطاقة',
-                        'other' => 'أخرى',
-                    ]),
+                    ->options(Expense::PAYMENT_METHODS),
                 TextInput::make('reference_number')
                     ->label('رقم المرجع')
                     ->maxLength(255),
@@ -49,11 +46,7 @@ class ExpenseForm
                     ->label('الحالة')
                     ->required()
                     ->default('paid')
-                    ->options([
-                        'draft' => 'مسودة',
-                        'approved' => 'معتمد',
-                        'paid' => 'مدفوع',
-                    ]),
+                    ->options(Expense::STATUSES),
                 Textarea::make('description')
                     ->label('الوصف')
                     ->columnSpanFull(),

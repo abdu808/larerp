@@ -13,7 +13,7 @@ class SocialCaseNoteForm
     {
         return $schema
             ->components([
-                Select::make('social_case_id')->label('الحالة')->relationship('socialCase', 'case_number')->searchable()->preload()->required(),
+                Select::make('social_case_id')->label('الحالة')->relationship('socialCase', 'case_number')->searchable(['case_number', 'summary'])->preload()->required(),
                 Select::make('user_id')->label('كاتب الملاحظة')->relationship('user', 'name')->searchable()->preload(),
                 Select::make('type')->label('نوع الملاحظة')->required()->default('general')->options([
                     'general' => 'عامة',
