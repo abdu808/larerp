@@ -52,6 +52,15 @@ class Beneficiary extends Model
         'widowed' => 'أرمل/ة',
     ];
 
+    public const HOUSING_TYPE_OPTIONS = [
+        'owned' => 'ملك',
+        'rented' => 'إيجار',
+        'hosted' => 'مستضاف',
+        'heir' => 'ورثة',
+        'waqf' => 'وقف',
+        'other' => 'أخرى',
+    ];
+
     protected $fillable = [
         'file_owner_id',
         'file_number',
@@ -202,6 +211,16 @@ class Beneficiary extends Model
     public static function genderLabelFor(?string $gender): string
     {
         return self::GENDER_OPTIONS[$gender] ?? (string) $gender;
+    }
+
+    public static function maritalStatusLabelFor(?string $status): string
+    {
+        return self::MARITAL_STATUS_OPTIONS[$status] ?? (string) $status;
+    }
+
+    public static function housingTypeLabelFor(?string $type): string
+    {
+        return self::HOUSING_TYPE_OPTIONS[$type] ?? (string) $type;
     }
 
     public static function statusLabelFor(?string $status): string
