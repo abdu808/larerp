@@ -23,11 +23,11 @@ class FamilyResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static ?string $modelLabel = 'عائلة';
+    protected static ?string $modelLabel = 'ملف مستفيد';
 
-    protected static ?string $pluralModelLabel = 'العائلات';
+    protected static ?string $pluralModelLabel = 'ملفات المستفيدين';
 
-    protected static ?string $navigationLabel = 'العائلات';
+    protected static ?string $navigationLabel = 'ملفات المستفيدين';
 
     protected static string|UnitEnum|null $navigationGroup = 'المستفيدون والملفات الاجتماعية';
 

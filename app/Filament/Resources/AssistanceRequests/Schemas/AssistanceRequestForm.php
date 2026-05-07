@@ -22,7 +22,7 @@ class AssistanceRequestForm
             ->components([
                 TextInput::make('request_number')->label('رقم الطلب')->required()->maxLength(255)->unique(ignoreRecord: true),
                 Select::make('family_id')
-                    ->label('العائلة')
+                    ->label('ملف المستفيد')
                     ->relationship('family', 'name')
                     ->getOptionLabelFromRecordUsing(fn (Family $record): string => "{$record->code} - {$record->name}")
                     ->searchable(['code', 'name', 'guardian_name'])

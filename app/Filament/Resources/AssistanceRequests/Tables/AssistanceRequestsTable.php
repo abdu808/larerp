@@ -17,7 +17,7 @@ class AssistanceRequestsTable
         return $table
             ->columns([
                 TextColumn::make('request_number')->label('رقم الطلب')->searchable()->sortable(),
-                TextColumn::make('family.name')->label('العائلة')->searchable()->placeholder('-'),
+                TextColumn::make('family.name')->label('ملف المستفيد')->searchable()->placeholder('-'),
                 TextColumn::make('beneficiary.full_name')->label('المستفيد')->placeholder('-'),
                 TextColumn::make('request_type')->label('نوع الطلب')->badge()->formatStateUsing(fn (?string $state): string => AssistanceRequest::TYPE_OPTIONS[$state] ?? (string) $state),
                 TextColumn::make('status')
@@ -41,7 +41,7 @@ class AssistanceRequestsTable
                 SelectFilter::make('status')->label('الحالة')->options(AssistanceRequest::STATUS_OPTIONS),
                 SelectFilter::make('urgency')->label('العجلة')->options(AssistanceRequest::URGENCY_OPTIONS),
                 SelectFilter::make('request_type')->label('نوع الطلب')->options(AssistanceRequest::TYPE_OPTIONS),
-                SelectFilter::make('family_id')->label('العائلة')->relationship('family', 'name')->searchable()->preload(),
+                SelectFilter::make('family_id')->label('ملف المستفيد')->relationship('family', 'name')->searchable()->preload(),
             ])
             ->recordActions([
                 EditAction::make(),

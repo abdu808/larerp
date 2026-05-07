@@ -15,9 +15,9 @@ class FamiliesTable
     {
         return $table
             ->columns([
-                TextColumn::make('code')->label('رقم العائلة')->searchable()->sortable(),
-                TextColumn::make('name')->label('اسم العائلة')->searchable(),
-                TextColumn::make('guardian_name')->label('رب الأسرة')->searchable(),
+                TextColumn::make('code')->label('رقم ملف المستفيد')->searchable()->sortable(),
+                TextColumn::make('name')->label('اسم ملف المستفيد')->searchable(),
+                TextColumn::make('guardian_name')->label('صاحب الملف')->searchable(),
                 TextColumn::make('phone')->label('الجوال')->searchable(),
                 TextColumn::make('city')->label('المدينة')->searchable(),
                 TextColumn::make('district')->label('الحي')->searchable(),

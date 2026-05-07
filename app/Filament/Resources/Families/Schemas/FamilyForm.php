@@ -15,9 +15,9 @@ class FamilyForm
     {
         return $schema
             ->components([
-                TextInput::make('code')->label('رقم العائلة')->required()->maxLength(255)->unique(ignoreRecord: true),
-                TextInput::make('name')->label('اسم العائلة')->required()->maxLength(255),
-                TextInput::make('guardian_name')->label('اسم رب الأسرة')->required()->maxLength(255),
+                TextInput::make('code')->label('رقم ملف المستفيد')->required()->maxLength(255)->unique(ignoreRecord: true),
+                TextInput::make('name')->label('اسم ملف المستفيد')->required()->maxLength(255),
+                TextInput::make('guardian_name')->label('صاحب الملف الرئيسي')->required()->maxLength(255),
                 TextInput::make('phone')->label('الجوال')->tel()->maxLength(255),
                 TextInput::make('city')->label('المدينة')->maxLength(255),
                 TextInput::make('district')->label('الحي')->maxLength(255),

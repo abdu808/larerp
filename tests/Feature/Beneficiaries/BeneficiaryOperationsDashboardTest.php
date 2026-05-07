@@ -60,7 +60,7 @@ class BeneficiaryOperationsDashboardTest extends TestCase
         $this->actingAs($this->superAdminUser())
             ->get(BeneficiariesOperationsDashboard::getUrl(panel: 'admin'))
             ->assertOk()
-            ->assertSee('أسر نشطة')
+            ->assertSee('ملفات نشطة')
             ->assertSee('مستفيدون')
             ->assertSee('حالات مفتوحة')
             ->assertSee('حالات عاجلة/عالية')

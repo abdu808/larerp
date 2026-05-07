@@ -79,7 +79,7 @@ class Family extends Model
     {
         static::deleting(function (Family $family): void {
             if (! $family->canBeDeleted()) {
-                throw new DomainException('Cannot delete a family that has beneficiaries or social cases.');
+                throw new DomainException('Cannot delete a beneficiary file that has beneficiaries or social cases.');
             }
         });
     }

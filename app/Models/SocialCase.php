@@ -141,7 +141,7 @@ class SocialCase extends Model
                     ->value('family_id');
 
                 if ((int) $beneficiaryFamilyId !== (int) $socialCase->family_id) {
-                    throw new DomainException('The selected beneficiary must belong to the selected family.');
+                    throw new DomainException('The selected beneficiary must belong to the selected beneficiary file.');
                 }
             }
 

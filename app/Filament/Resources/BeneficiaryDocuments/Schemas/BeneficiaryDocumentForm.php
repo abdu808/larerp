@@ -29,7 +29,7 @@ class BeneficiaryDocumentForm
                 Select::make('sensitivity_level')->label('مستوى السرية')->required()->default('internal')->options(BeneficiaryDocument::SENSITIVITY_LEVEL_OPTIONS),
                 Select::make('verification_status')->label('حالة التحقق')->required()->default(BeneficiaryDocument::STATUS_UPLOADED)->options(BeneficiaryDocument::VERIFICATION_STATUS_OPTIONS),
                 Select::make('family_id')
-                    ->label('العائلة')
+                    ->label('ملف المستفيد')
                     ->relationship('family', 'name')
                     ->getOptionLabelFromRecordUsing(fn (Family $record): string => "{$record->code} - {$record->name}")
                     ->searchable(['code', 'name', 'guardian_name'])

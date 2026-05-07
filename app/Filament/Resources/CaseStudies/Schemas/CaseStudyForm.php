@@ -42,7 +42,7 @@ class CaseStudyForm
                 Select::make('status')->label('الحالة')->required()->default(CaseStudy::STATUS_DRAFT)->options(CaseStudy::STATUS_OPTIONS),
                 DatePicker::make('started_at')->label('تاريخ البدء'),
                 Textarea::make('summary')->label('ملخص الدراسة')->columnSpanFull(),
-                Textarea::make('family_situation')->label('وضع الأسرة')->columnSpanFull(),
+                Textarea::make('family_situation')->label('وضع ملف المستفيد والتابعين')->columnSpanFull(),
                 Textarea::make('risk_factors')->label('عوامل الخطورة')->columnSpanFull(),
                 Textarea::make('recommendation')->label('توصية الباحث')->columnSpanFull(),
                 Textarea::make('supervisor_notes')->label('ملاحظات المشرف')->columnSpanFull(),

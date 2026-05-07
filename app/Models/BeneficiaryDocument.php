@@ -43,7 +43,7 @@ class BeneficiaryDocument extends Model
 
     public const DOCUMENT_TYPE_OPTIONS = [
         'national_id' => 'هوية وطنية/إقامة',
-        'family_card' => 'سجل الأسرة',
+        'family_card' => 'سجل التابعين',
         'income_statement' => 'إثبات دخل',
         'rent_contract' => 'عقد إيجار',
         'medical_report' => 'تقرير طبي',

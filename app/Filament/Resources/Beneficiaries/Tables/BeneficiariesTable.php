@@ -18,20 +18,20 @@ class BeneficiariesTable
             ->columns([
                 TextColumn::make('full_name')->label('الاسم')->searchable(['first_name', 'father_name', 'grandfather_name', 'family_name']),
                 TextColumn::make('national_id')->label('رقم الهوية')->searchable(),
-                TextColumn::make('family.name')->label('العائلة')->searchable(),
+                TextColumn::make('family.name')->label('ملف المستفيد')->searchable(),
                 TextColumn::make('gender')
                     ->label('الجنس')
                     ->badge()
                     ->formatStateUsing(fn (?string $state): string => Beneficiary::genderLabelFor($state))
                     ->color(fn (?string $state): string => $state === 'female' ? 'danger' : 'info'),
                 TextColumn::make('phone')->label('الجوال')->searchable(),
-                TextColumn::make('relationship_to_guardian')->label('صلة القرابة')->searchable(),
+                TextColumn::make('relationship_to_guardian')->label('صلة القرابة بصاحب الملف')->searchable(),
                 TextColumn::make('social_cases_count')->label('الحالات')->counts('socialCases')->sortable(),
                 IconColumn::make('is_primary_contact')->label('تواصل أساسي')->boolean(),
                 TextColumn::make('created_at')->label('أضيف في')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                SelectFilter::make('family_id')->label('العائلة')->relationship('family', 'name')->searchable()->preload(),
+                SelectFilter::make('family_id')->label('ملف المستفيد')->relationship('family', 'name')->searchable()->preload(),
                 SelectFilter::make('gender')->label('الجنس')->options(Beneficiary::GENDER_OPTIONS),
                 SelectFilter::make('marital_status')->label('الحالة الاجتماعية')->options(Beneficiary::MARITAL_STATUS_OPTIONS),
             ])

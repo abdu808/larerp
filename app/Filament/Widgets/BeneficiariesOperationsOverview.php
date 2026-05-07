@@ -28,8 +28,8 @@ class BeneficiariesOperationsOverview extends StatsOverviewWidget
     protected function getStats(): array
     {
         return [
-            Stat::make('أسر نشطة', $this->activeFamiliesCount())
-                ->description('الأسر القابلة للخدمة')
+            Stat::make('ملفات نشطة', $this->activeFamiliesCount())
+                ->description('ملفات المستفيدين القابلة للخدمة')
                 ->descriptionIcon(Heroicon::HomeModern)
                 ->color('success'),
             Stat::make('مستفيدون', $this->tableCount('beneficiaries', fn (): int => Beneficiary::query()->count()))

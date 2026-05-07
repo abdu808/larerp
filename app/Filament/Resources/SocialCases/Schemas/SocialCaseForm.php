@@ -19,7 +19,7 @@ class SocialCaseForm
             ->components([
                 TextInput::make('case_number')->label('رقم الحالة')->required()->maxLength(255)->unique(ignoreRecord: true),
                 Select::make('family_id')
-                    ->label('العائلة')
+                    ->label('ملف المستفيد')
                     ->relationship('family', 'name')
                     ->getOptionLabelFromRecordUsing(fn (Family $record): string => "{$record->code} - {$record->name}")
                     ->searchable(['code', 'name', 'guardian_name'])
