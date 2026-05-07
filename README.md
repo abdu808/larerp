@@ -17,6 +17,7 @@
 
 ## الوثائق الأساسية
 
+- [فهرس الوثائق](docs/INDEX-ar.md)
 - [الوثيقة المرجعية](docs/charity-erp-platform-blueprint-ar.md)
 - [مصفوفة تنفيذ الموديولات](docs/module-implementation-matrix-ar.md)
 
@@ -37,4 +38,3 @@
 5. Finance, Inventory and Governance.
 6. Productization and Deployment.
 7. AI and Advanced Analytics.
-
