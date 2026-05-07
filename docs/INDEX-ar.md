@@ -28,6 +28,14 @@
 - [تجهيز Phase 1](operations/phase-1-bootstrap-ar.md)
 - [بوابات المراحل](operations/phase-gate-checklist-ar.md)
 
+## مراجعات قادة الموديولات
+
+- [الخلاصة القيادية لتقارير قادة الموديولات](module-reviews/leadership-synthesis-ar.md)
+- [مراجعة موديول المستفيدين والملفات الاجتماعية](module-reviews/beneficiaries-lead-review-ar.md)
+- [مراجعة موديول المشاريع والتبرعات والمتجر](module-reviews/donations-store-lead-review-ar.md)
+- [مراجعة موديول المالية والمخزون](module-reviews/finance-inventory-lead-review-ar.md)
+- [مراجعة موديول الإدارة والصلاحيات والحوكمة التقنية](module-reviews/admin-governance-lead-review-ar.md)
+
 ## حالة المشروع
 
 - [حالة المشروع](../PROJECT_STATUS.md)
