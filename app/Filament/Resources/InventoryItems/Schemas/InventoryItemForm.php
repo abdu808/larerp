@@ -32,11 +32,13 @@ class InventoryItemForm
                 TextInput::make('minimum_quantity')
                     ->label('حد التنبيه')
                     ->numeric()
+                    ->minValue(0)
                     ->default(0)
                     ->required(),
                 TextInput::make('current_quantity')
                     ->label('الكمية الحالية')
                     ->numeric()
+                    ->minValue(0)
                     ->default(0)
                     ->required(),
                 Toggle::make('is_active')

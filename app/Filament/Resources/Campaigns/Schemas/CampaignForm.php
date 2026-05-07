@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Campaigns\Schemas;
 
+use App\Models\Campaign;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -32,21 +33,11 @@ class CampaignForm
                 Select::make('status')
                     ->label('الحالة')
                     ->required()
-                    ->default('draft')
-                    ->options([
-                        'draft' => 'مسودة',
-                        'active' => 'نشطة',
-                        'paused' => 'متوقفة مؤقتًا',
-                        'completed' => 'مكتملة',
-                    ]),
+                    ->default(Campaign::STATUS_DRAFT)
+                    ->options(Campaign::STATUSES),
                 Select::make('channel')
                     ->label('القناة')
-                    ->options([
-                        'website' => 'الموقع',
-                        'social' => 'الشبكات الاجتماعية',
-                        'branch' => 'الفرع',
-                        'manual' => 'يدوي',
-                    ])
+                    ->options(Campaign::CHANNELS)
                     ->searchable(),
                 TextInput::make('goal_amount')
                     ->label('المبلغ المستهدف')
@@ -63,7 +54,8 @@ class CampaignForm
                 DateTimePicker::make('starts_at')
                     ->label('بداية الحملة'),
                 DateTimePicker::make('ends_at')
-                    ->label('نهاية الحملة'),
+                    ->label('نهاية الحملة')
+                    ->rule('after_or_equal:starts_at'),
                 Toggle::make('is_featured')
                     ->label('مميزة')
                     ->default(false),

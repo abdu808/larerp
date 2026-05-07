@@ -2,8 +2,10 @@
 
 namespace App\Filament\Resources\Donations\Tables;
 
+use App\Models\Donation;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 
 class DonationsTable
@@ -47,7 +49,12 @@ class DonationsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('payment_status')
+                    ->label('حالة الدفع')
+                    ->options(Donation::PAYMENT_STATUSES),
+                SelectFilter::make('payment_method')
+                    ->label('طريقة الدفع')
+                    ->options(Donation::PAYMENT_METHODS),
             ])
             ->recordActions([
                 EditAction::make(),

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Donations\Schemas;
 
+use App\Models\Donation;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -39,30 +40,21 @@ class DonationForm
                     ->label('المبلغ')
                     ->required()
                     ->numeric()
-                    ->minValue(1),
+                    ->minValue(0.01),
                 TextInput::make('currency')
                     ->label('العملة')
                     ->required()
                     ->default('SAR')
-                    ->maxLength(3),
+                    ->length(3)
+                    ->regex('/^[A-Z]{3}$/'),
                 Select::make('payment_status')
                     ->label('حالة الدفع')
                     ->required()
-                    ->default('pending')
-                    ->options([
-                        'pending' => 'قيد الانتظار',
-                        'paid' => 'مدفوع',
-                        'failed' => 'فشل',
-                        'refunded' => 'مسترجع',
-                    ]),
+                    ->default(Donation::STATUS_PENDING)
+                    ->options(Donation::PAYMENT_STATUSES),
                 Select::make('payment_method')
                     ->label('طريقة الدفع')
-                    ->options([
-                        'cash' => 'نقدي',
-                        'bank_transfer' => 'تحويل بنكي',
-                        'pos' => 'نقاط بيع',
-                        'manual' => 'إدخال يدوي',
-                    ])
+                    ->options(Donation::PAYMENT_METHODS)
                     ->searchable(),
                 TextInput::make('reference')
                     ->label('المرجع')

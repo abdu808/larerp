@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\InventoryMovements\Schemas;
 
+use App\Models\InventoryMovement;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -23,14 +24,11 @@ class InventoryMovementForm
                 Select::make('type')
                     ->label('نوع الحركة')
                     ->required()
-                    ->options([
-                        'in' => 'إدخال',
-                        'out' => 'إخراج',
-                        'adjustment' => 'تسوية',
-                    ]),
+                    ->options(InventoryMovement::TYPES),
                 TextInput::make('quantity')
                     ->label('الكمية')
                     ->numeric()
+                    ->minValue(0.01)
                     ->required(),
                 DatePicker::make('movement_date')
                     ->label('تاريخ الحركة')
@@ -44,7 +42,8 @@ class InventoryMovementForm
                     ->maxLength(255),
                 TextInput::make('unit_cost')
                     ->label('تكلفة الوحدة')
-                    ->numeric(),
+                    ->numeric()
+                    ->minValue(0),
                 Textarea::make('notes')
                     ->label('ملاحظات')
                     ->columnSpanFull(),

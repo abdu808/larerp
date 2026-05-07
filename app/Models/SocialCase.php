@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DomainException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,6 +11,50 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class SocialCase extends Model
 {
     use HasFactory;
+
+    public const STATUS_OPEN = 'open';
+
+    public const STATUS_UNDER_REVIEW = 'under_review';
+
+    public const STATUS_APPROVED = 'approved';
+
+    public const STATUS_CLOSED = 'closed';
+
+    public const STATUS_OPTIONS = [
+        self::STATUS_OPEN => 'مفتوحة',
+        self::STATUS_UNDER_REVIEW => 'قيد الدراسة',
+        self::STATUS_APPROVED => 'معتمدة',
+        self::STATUS_CLOSED => 'مغلقة',
+    ];
+
+    public const STATUS_COLORS = [
+        self::STATUS_OPEN => 'info',
+        self::STATUS_UNDER_REVIEW => 'warning',
+        self::STATUS_APPROVED => 'success',
+        self::STATUS_CLOSED => 'gray',
+    ];
+
+    public const PRIORITY_OPTIONS = [
+        'low' => 'منخفضة',
+        'normal' => 'عادية',
+        'high' => 'عالية',
+        'urgent' => 'عاجلة',
+    ];
+
+    public const PRIORITY_COLORS = [
+        'low' => 'gray',
+        'normal' => 'info',
+        'high' => 'warning',
+        'urgent' => 'danger',
+    ];
+
+    public const TYPE_OPTIONS = [
+        'financial' => 'احتياج مالي',
+        'housing' => 'سكن',
+        'health' => 'صحي',
+        'education' => 'تعليمي',
+        'emergency' => 'طارئ',
+    ];
 
     protected $fillable = [
         'family_id',
@@ -54,5 +99,65 @@ class SocialCase extends Model
     public function attachments(): HasMany
     {
         return $this->hasMany(SocialCaseAttachment::class);
+    }
+
+    public function canBeDeleted(): bool
+    {
+        return ! $this->notes()->exists()
+            && ! $this->attachments()->exists();
+    }
+
+    public function isClosed(): bool
+    {
+        return $this->status === self::STATUS_CLOSED;
+    }
+
+    public static function statusLabelFor(?string $status): string
+    {
+        return self::STATUS_OPTIONS[$status] ?? (string) $status;
+    }
+
+    public static function statusColorFor(?string $status): string
+    {
+        return self::STATUS_COLORS[$status] ?? 'gray';
+    }
+
+    public static function priorityLabelFor(?string $priority): string
+    {
+        return self::PRIORITY_OPTIONS[$priority] ?? (string) $priority;
+    }
+
+    public static function priorityColorFor(?string $priority): string
+    {
+        return self::PRIORITY_COLORS[$priority] ?? 'gray';
+    }
+
+    protected static function booted(): void
+    {
+        static::saving(function (SocialCase $socialCase): void {
+            if ($socialCase->beneficiary_id !== null) {
+                $beneficiaryFamilyId = Beneficiary::query()
+                    ->whereKey($socialCase->beneficiary_id)
+                    ->value('family_id');
+
+                if ((int) $beneficiaryFamilyId !== (int) $socialCase->family_id) {
+                    throw new DomainException('The selected beneficiary must belong to the selected family.');
+                }
+            }
+
+            if ($socialCase->isClosed() && $socialCase->closed_at === null) {
+                $socialCase->closed_at = now()->toDateString();
+            }
+
+            if (! $socialCase->isClosed()) {
+                $socialCase->closed_at = null;
+            }
+        });
+
+        static::deleting(function (SocialCase $socialCase): void {
+            if (! $socialCase->canBeDeleted()) {
+                throw new DomainException('Cannot delete a social case that has notes or attachments.');
+            }
+        });
     }
 }

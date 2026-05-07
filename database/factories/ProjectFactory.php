@@ -15,7 +15,7 @@ class ProjectFactory extends Factory
             'code' => fake()->unique()->bothify('PRJ-####'),
             'description' => fake()->paragraph(),
             'category' => fake()->randomElement(['relief', 'health', 'education', 'housing']),
-            'status' => fake()->randomElement(['draft', 'active', 'paused', 'completed']),
+            'status' => fake()->randomElement(array_keys(Project::STATUSES)),
             'goal_amount' => fake()->numberBetween(10000, 100000),
             'collected_amount' => 0,
             'starts_on' => now()->toDateString(),

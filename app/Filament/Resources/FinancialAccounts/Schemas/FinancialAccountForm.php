@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\FinancialAccounts\Schemas;
 
+use App\Models\FinancialAccount;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -26,20 +27,17 @@ class FinancialAccountForm
                 Select::make('type')
                     ->label('نوع الحساب')
                     ->required()
-                    ->options([
-                        'cash' => 'نقدي',
-                        'bank' => 'بنكي',
-                        'custody' => 'عهدة',
-                        'other' => 'أخرى',
-                    ]),
+                    ->options(FinancialAccount::ACCOUNT_TYPES),
                 TextInput::make('opening_balance')
                     ->label('الرصيد الافتتاحي')
                     ->numeric()
+                    ->minValue(0)
                     ->default(0)
                     ->required(),
                 TextInput::make('current_balance')
                     ->label('الرصيد الحالي')
                     ->numeric()
+                    ->minValue(0)
                     ->default(0)
                     ->required(),
                 Toggle::make('is_active')

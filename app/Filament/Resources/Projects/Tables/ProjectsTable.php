@@ -2,9 +2,12 @@
 
 namespace App\Filament\Resources\Projects\Tables;
 
+use App\Models\Project;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 
 class ProjectsTable
@@ -36,6 +39,12 @@ class ProjectsTable
                     ->label('المحصل')
                     ->money('SAR')
                     ->sortable(),
+                TextColumn::make('progress_percentage')
+                    ->label('نسبة الإنجاز')
+                    ->formatStateUsing(fn (int $state): string => $state.'%')
+                    ->sortable(query: fn ($query, string $direction) => $query->orderByRaw(
+                        'CASE WHEN goal_amount > 0 THEN collected_amount / goal_amount ELSE 0 END '.$direction
+                    )),
                 IconColumn::make('is_featured')
                     ->label('مميز')
                     ->boolean(),
@@ -46,7 +55,20 @@ class ProjectsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                SelectFilter::make('status')
+                    ->label('الحالة')
+                    ->options(Project::STATUSES),
+                SelectFilter::make('category')
+                    ->label('التصنيف')
+                    ->options([
+                        'relief' => 'إغاثي',
+                        'health' => 'صحي',
+                        'education' => 'تعليمي',
+                        'housing' => 'إسكان',
+                        'general' => 'عام',
+                    ]),
+                TernaryFilter::make('is_featured')
+                    ->label('مميز'),
             ])
             ->recordActions([
                 EditAction::make(),
