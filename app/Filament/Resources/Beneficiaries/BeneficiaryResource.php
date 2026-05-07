@@ -5,10 +5,14 @@ namespace App\Filament\Resources\Beneficiaries;
 use App\Filament\Resources\Beneficiaries\Pages\CreateBeneficiary;
 use App\Filament\Resources\Beneficiaries\Pages\EditBeneficiary;
 use App\Filament\Resources\Beneficiaries\Pages\ListBeneficiaries;
+use App\Filament\Resources\Beneficiaries\Pages\ViewBeneficiary;
+use App\Filament\Resources\Beneficiaries\RelationManagers\AssistanceRequestsRelationManager;
 use App\Filament\Resources\Beneficiaries\RelationManagers\DocumentsRelationManager;
+use App\Filament\Resources\Beneficiaries\RelationManagers\FieldVisitsRelationManager;
 use App\Filament\Resources\Beneficiaries\RelationManagers\FileMembersRelationManager;
 use App\Filament\Resources\Beneficiaries\RelationManagers\SocialCasesRelationManager;
 use App\Filament\Resources\Beneficiaries\Schemas\BeneficiaryForm;
+use App\Filament\Resources\Beneficiaries\Schemas\BeneficiaryInfolist;
 use App\Filament\Resources\Beneficiaries\Tables\BeneficiariesTable;
 use App\Models\Beneficiary;
 use BackedEnum;
@@ -39,6 +43,11 @@ class BeneficiaryResource extends Resource
         return BeneficiaryForm::configure($schema);
     }
 
+    public static function infolist(Schema $schema): Schema
+    {
+        return BeneficiaryInfolist::configure($schema);
+    }
+
     public static function table(Table $table): Table
     {
         return BeneficiariesTable::configure($table);
@@ -48,7 +57,9 @@ class BeneficiaryResource extends Resource
     {
         return [
             FileMembersRelationManager::class,
+            FieldVisitsRelationManager::class,
             SocialCasesRelationManager::class,
+            AssistanceRequestsRelationManager::class,
             DocumentsRelationManager::class,
         ];
     }
@@ -58,6 +69,7 @@ class BeneficiaryResource extends Resource
         return [
             'index' => ListBeneficiaries::route('/'),
             'create' => CreateBeneficiary::route('/create'),
+            'view' => ViewBeneficiary::route('/{record}'),
             'edit' => EditBeneficiary::route('/{record}/edit'),
         ];
     }

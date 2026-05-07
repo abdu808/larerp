@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Beneficiaries\Tables;
 use App\Models\Beneficiary;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
@@ -17,8 +18,16 @@ class BeneficiariesTable
         return $table
             ->columns([
                 TextColumn::make('full_name')->label('الاسم')->searchable(['first_name', 'father_name', 'grandfather_name', 'family_name']),
+                TextColumn::make('file_number')->label('رقم الملف')->searchable()->sortable(),
                 TextColumn::make('national_id')->label('رقم الهوية')->searchable(),
                 TextColumn::make('fileOwner.full_name')->label('يتبع ملف')->placeholder('صاحب الملف'),
+                TextColumn::make('classification')
+                    ->label('التصنيف')
+                    ->badge()
+                    ->formatStateUsing(fn (?string $state): string => Beneficiary::classificationLabelFor($state))
+                    ->color(fn (?string $state): string => Beneficiary::classificationColorFor($state))
+                    ->sortable(),
+                TextColumn::make('score')->label('درجة الاحتياج')->sortable(),
                 TextColumn::make('gender')
                     ->label('الجنس')
                     ->badge()
@@ -33,10 +42,19 @@ class BeneficiariesTable
             ])
             ->filters([
                 SelectFilter::make('file_owner_id')->label('يتبع ملف')->relationship('fileOwner', 'first_name')->searchable()->preload(),
+                SelectFilter::make('classification')->label('التصنيف')->options([
+                    Beneficiary::CLASSIFICATION_A => 'A',
+                    Beneficiary::CLASSIFICATION_B => 'B',
+                    Beneficiary::CLASSIFICATION_C => 'C',
+                    Beneficiary::CLASSIFICATION_D => 'D',
+                    Beneficiary::CLASSIFICATION_EXCLUDED => 'X',
+                ]),
+                SelectFilter::make('status')->label('حالة الملف')->options(Beneficiary::STATUS_OPTIONS),
                 SelectFilter::make('gender')->label('الجنس')->options(Beneficiary::GENDER_OPTIONS),
                 SelectFilter::make('marital_status')->label('الحالة الاجتماعية')->options(Beneficiary::MARITAL_STATUS_OPTIONS),
             ])
             ->recordActions([
+                ViewAction::make()->label('عرض الملف'),
                 EditAction::make(),
                 DeleteAction::make()->hidden(fn (Beneficiary $record): bool => ! $record->canBeDeleted()),
             ]);

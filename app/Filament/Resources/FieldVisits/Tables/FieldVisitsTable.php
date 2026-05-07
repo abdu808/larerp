@@ -15,6 +15,7 @@ class FieldVisitsTable
     {
         return $table
             ->columns([
+                TextColumn::make('beneficiary.full_name')->label('المستفيد')->searchable()->sortable(),
                 TextColumn::make('socialCase.case_number')->label('رقم الحالة')->searchable()->sortable(),
                 TextColumn::make('visitor.name')->label('الزائر')->searchable()->sortable(),
                 TextColumn::make('type')
@@ -29,6 +30,8 @@ class FieldVisitsTable
                     ->sortable(),
                 TextColumn::make('scheduled_at')->label('الموعد')->dateTime()->sortable(),
                 TextColumn::make('completed_at')->label('الإكمال')->dateTime()->sortable()->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('building_status')->label('حالة المبنى')->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('furniture_status')->label('حالة الأثاث')->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('location')->label('الموقع')->searchable()->toggleable(),
             ])
             ->filters([

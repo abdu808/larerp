@@ -54,6 +54,7 @@ class FieldVisit extends Model
     ];
 
     protected $fillable = [
+        'beneficiary_id',
         'case_study_id',
         'social_case_id',
         'visitor_id',
@@ -62,8 +63,12 @@ class FieldVisit extends Model
         'scheduled_at',
         'completed_at',
         'location',
+        'building_status',
+        'furniture_status',
+        'is_urgent',
         'purpose',
         'findings',
+        'recommendations',
         'next_action',
     ];
 
@@ -72,7 +77,13 @@ class FieldVisit extends Model
         return [
             'scheduled_at' => 'datetime',
             'completed_at' => 'datetime',
+            'is_urgent' => 'boolean',
         ];
+    }
+
+    public function beneficiary(): BelongsTo
+    {
+        return $this->belongsTo(Beneficiary::class);
     }
 
     public function caseStudy(): BelongsTo

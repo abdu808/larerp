@@ -38,6 +38,26 @@ class BeneficiaryFileExperienceTest extends TestCase
             ->assertSee('الوثائق');
     }
 
+    public function test_beneficiary_file_view_shows_360_overview(): void
+    {
+        $beneficiary = Beneficiary::create([
+            'first_name' => 'مستفيد',
+            'family_name' => 'اختبار',
+            'salary_income' => 1200,
+            'rent_expense' => 800,
+            'status' => Beneficiary::STATUS_ACTIVE,
+            'registered_at' => '2026-05-07',
+        ]);
+
+        $this->actingAs($this->superAdminUser())
+            ->get(BeneficiaryResource::getUrl('view', ['record' => $beneficiary], panel: 'admin'))
+            ->assertOk()
+            ->assertSee('نظرة عامة على ملف المستفيد')
+            ->assertSee('السكن والوضع المالي')
+            ->assertSee('طلبات الخدمة')
+            ->assertSee('البحث الميداني');
+    }
+
     private function superAdminUser(): User
     {
         $role = Role::findOrCreate('Super Admin', 'web');

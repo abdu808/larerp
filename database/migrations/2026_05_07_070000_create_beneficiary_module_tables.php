@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('beneficiaries', function (Blueprint $table) {
             $table->id();
             $table->foreignId('file_owner_id')->nullable()->constrained('beneficiaries')->nullOnDelete();
+            $table->string('file_number')->nullable()->unique();
             $table->string('national_id')->nullable()->unique();
             $table->string('first_name');
             $table->string('father_name')->nullable();
@@ -25,11 +26,30 @@ return new class extends Migration
             $table->string('employment_status')->nullable()->index();
             $table->string('health_status')->nullable();
             $table->boolean('is_primary_contact')->default(false);
+            $table->string('nationality')->nullable();
+            $table->string('housing_type')->nullable()->index();
+            $table->string('location_url')->nullable();
+            $table->string('bank_name')->nullable();
+            $table->string('iban')->nullable();
+            $table->string('classification')->default('c')->index();
+            $table->unsignedSmallInteger('score')->default(0);
+            $table->decimal('salary_income', 12, 2)->default(0);
+            $table->decimal('social_security_income', 12, 2)->default(0);
+            $table->decimal('citizen_account_income', 12, 2)->default(0);
+            $table->decimal('retirement_income', 12, 2)->default(0);
+            $table->decimal('other_income', 12, 2)->default(0);
+            $table->decimal('rent_expense', 12, 2)->default(0);
+            $table->decimal('electricity_expense', 12, 2)->default(0);
+            $table->decimal('water_expense', 12, 2)->default(0);
+            $table->decimal('loans_expense', 12, 2)->default(0);
+            $table->decimal('treatment_expense', 12, 2)->default(0);
             $table->string('status')->default('active')->index();
+            $table->text('status_reason')->nullable();
             $table->string('city')->nullable()->index();
             $table->string('district')->nullable()->index();
             $table->text('address')->nullable();
             $table->date('registered_at')->nullable();
+            $table->date('expiry_date')->nullable()->index();
             $table->text('notes')->nullable();
             $table->timestamps();
         });

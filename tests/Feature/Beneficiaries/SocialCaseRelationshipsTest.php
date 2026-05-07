@@ -3,6 +3,7 @@
 namespace Tests\Feature\Beneficiaries;
 
 use App\Models\Beneficiary;
+use App\Models\FieldVisit;
 use App\Models\SocialCase;
 use App\Models\SocialCaseAttachment;
 use App\Models\SocialCaseNote;
@@ -119,6 +120,56 @@ class SocialCaseRelationshipsTest extends TestCase
         $this->expectException(DomainException::class);
 
         $beneficiary->delete();
+    }
+
+    public function test_beneficiary_file_calculates_social_classification_from_financial_and_social_data(): void
+    {
+        $beneficiary = Beneficiary::create([
+            'first_name' => 'مستفيد',
+            'marital_status' => 'widowed',
+            'housing_type' => 'rented',
+            'salary_income' => 0,
+            'rent_expense' => 1800,
+            'treatment_expense' => 300,
+            'health_status' => 'مرض مزمن',
+            'status' => Beneficiary::STATUS_ACTIVE,
+        ]);
+
+        Beneficiary::create([
+            'file_owner_id' => $beneficiary->id,
+            'first_name' => 'تابع',
+            'relationship_to_guardian' => 'ابن',
+        ]);
+
+        $beneficiary->refreshSocialClassification();
+
+        $this->assertSame(Beneficiary::CLASSIFICATION_A, $beneficiary->classification);
+        $this->assertGreaterThanOrEqual(80, $beneficiary->score);
+        $this->assertSame(2, $beneficiary->file_members_count);
+        $this->assertSame(2100.0, $beneficiary->total_expenses);
+    }
+
+    public function test_beneficiary_file_contains_direct_field_visits(): void
+    {
+        $beneficiary = Beneficiary::create([
+            'first_name' => 'مستفيد',
+            'status' => Beneficiary::STATUS_ACTIVE,
+        ]);
+
+        $visit = FieldVisit::create([
+            'beneficiary_id' => $beneficiary->id,
+            'status' => FieldVisit::STATUS_COMPLETED,
+            'type' => FieldVisit::TYPE_FIELD,
+            'is_urgent' => true,
+            'building_status' => 'poor',
+            'furniture_status' => 'need_replacement',
+            'findings' => 'تم توثيق احتياج عاجل.',
+            'recommendations' => 'صرف دعم عاجل.',
+        ]);
+
+        $this->assertTrue($beneficiary->fieldVisits->contains($visit));
+        $this->assertTrue($visit->beneficiary->is($beneficiary));
+        $this->assertTrue($visit->is_urgent);
     }
 
     public function test_social_case_with_notes_or_attachments_cannot_be_deleted(): void
