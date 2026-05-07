@@ -3,8 +3,8 @@
 namespace Tests\Feature\Beneficiaries;
 
 use App\Models\AssistanceRequest;
+use App\Models\Beneficiary;
 use App\Models\CommitteeDecision;
-use App\Models\Family;
 use App\Models\FollowUp;
 use App\Models\ServiceDelivery;
 use App\Models\SocialCase;
@@ -22,7 +22,7 @@ class DecisionSupportDeliveryFollowUpTest extends TestCase
     {
         $socialCase = $this->createSocialCase('SC-2026-D001');
         $assistanceRequest = AssistanceRequest::create([
-            'family_id' => $socialCase->family_id,
+            'beneficiary_id' => $socialCase->beneficiary_id,
             'social_case_id' => $socialCase->id,
             'request_number' => 'REQ-2026-D001',
             'request_type' => 'financial',
@@ -42,14 +42,14 @@ class DecisionSupportDeliveryFollowUpTest extends TestCase
             'approved_service_type' => 'سلة غذائية',
             'effective_from' => '2026-05-07',
             'effective_to' => '2026-08-07',
-            'reason' => 'احتياج الأسرة مثبت وتوصية الدعم مناسبة.',
+            'reason' => 'احتياج ملف المستفيد مثبت وتوصية الدعم مناسبة.',
             'decided_by_id' => $user->id,
         ]);
 
         $plan = SupportPlan::create([
             'social_case_id' => $socialCase->id,
             'plan_type' => SupportPlan::TYPE_RELIEF,
-            'goal' => 'تثبيت احتياج الأسرة الأساسي خلال ثلاثة أشهر.',
+            'goal' => 'تثبيت احتياج ملف المستفيد الأساسي خلال ثلاثة أشهر.',
             'status' => SupportPlan::STATUS_ACTIVE,
             'owner_id' => $user->id,
             'start_date' => '2026-05-08',
@@ -147,14 +147,15 @@ class DecisionSupportDeliveryFollowUpTest extends TestCase
 
     private function createSocialCase(string $caseNumber): SocialCase
     {
-        $family = Family::create([
-            'code' => str_replace('SC', 'FAM', $caseNumber),
-            'name' => 'أسرة اختبار',
-            'guardian_name' => 'رب الأسرة',
+        $beneficiary = Beneficiary::create([
+            'first_name' => 'مستفيد',
+            'family_name' => 'اختبار',
+            'status' => Beneficiary::STATUS_ACTIVE,
+            'registered_at' => '2026-05-07',
         ]);
 
         return SocialCase::create([
-            'family_id' => $family->id,
+            'beneficiary_id' => $beneficiary->id,
             'case_number' => $caseNumber,
             'summary' => 'حالة اختبارية لنطاق القرار والخطة والتنفيذ والمتابعة.',
         ]);

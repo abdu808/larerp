@@ -12,6 +12,24 @@ class Beneficiary extends Model
 {
     use HasFactory;
 
+    public const STATUS_ACTIVE = 'active';
+
+    public const STATUS_INACTIVE = 'inactive';
+
+    public const STATUS_ARCHIVED = 'archived';
+
+    public const STATUS_OPTIONS = [
+        self::STATUS_ACTIVE => 'نشط',
+        self::STATUS_INACTIVE => 'غير نشط',
+        self::STATUS_ARCHIVED => 'مؤرشف',
+    ];
+
+    public const STATUS_COLORS = [
+        self::STATUS_ACTIVE => 'success',
+        self::STATUS_INACTIVE => 'warning',
+        self::STATUS_ARCHIVED => 'gray',
+    ];
+
     public const GENDER_OPTIONS = [
         'male' => 'ذكر',
         'female' => 'أنثى',
@@ -25,7 +43,7 @@ class Beneficiary extends Model
     ];
 
     protected $fillable = [
-        'family_id',
+        'file_owner_id',
         'national_id',
         'first_name',
         'father_name',
@@ -40,6 +58,12 @@ class Beneficiary extends Model
         'employment_status',
         'health_status',
         'is_primary_contact',
+        'status',
+        'city',
+        'district',
+        'address',
+        'registered_at',
+        'notes',
     ];
 
     protected function casts(): array
@@ -47,12 +71,18 @@ class Beneficiary extends Model
         return [
             'birth_date' => 'date',
             'is_primary_contact' => 'boolean',
+            'registered_at' => 'date',
         ];
     }
 
-    public function family(): BelongsTo
+    public function fileOwner(): BelongsTo
     {
-        return $this->belongsTo(Family::class);
+        return $this->belongsTo(self::class, 'file_owner_id');
+    }
+
+    public function dependents(): HasMany
+    {
+        return $this->hasMany(self::class, 'file_owner_id');
     }
 
     public function socialCases(): HasMany
@@ -67,7 +97,7 @@ class Beneficiary extends Model
 
     public function fileMembers(): HasMany
     {
-        return $this->hasMany(self::class, 'family_id', 'family_id');
+        return $this->dependents();
     }
 
     public function getFullNameAttribute(): string
@@ -82,12 +112,24 @@ class Beneficiary extends Model
 
     public function canBeDeleted(): bool
     {
-        return ! $this->socialCases()->exists();
+        return ! $this->socialCases()->exists()
+            && ! $this->documents()->exists()
+            && ! $this->dependents()->exists();
     }
 
     public static function genderLabelFor(?string $gender): string
     {
         return self::GENDER_OPTIONS[$gender] ?? (string) $gender;
+    }
+
+    public static function statusLabelFor(?string $status): string
+    {
+        return self::STATUS_OPTIONS[$status] ?? (string) $status;
+    }
+
+    public static function statusColorFor(?string $status): string
+    {
+        return self::STATUS_COLORS[$status] ?? 'gray';
     }
 
     protected static function booted(): void

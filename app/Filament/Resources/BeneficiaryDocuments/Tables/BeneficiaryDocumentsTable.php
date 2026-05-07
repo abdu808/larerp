@@ -20,7 +20,6 @@ class BeneficiaryDocumentsTable
             ->columns([
                 TextColumn::make('title')->label('العنوان')->searchable()->sortable(),
                 TextColumn::make('beneficiary.full_name')->label('المستفيد')->placeholder('-'),
-                TextColumn::make('family.name')->label('ملف المستفيد')->searchable()->placeholder('-'),
                 TextColumn::make('document_type')->label('نوع الوثيقة')->badge()->formatStateUsing(fn (?string $state): string => BeneficiaryDocument::DOCUMENT_TYPE_OPTIONS[$state] ?? (string) $state),
                 TextColumn::make('sensitivity_level')
                     ->label('السرية')
@@ -42,7 +41,6 @@ class BeneficiaryDocumentsTable
                 SelectFilter::make('document_type')->label('نوع الوثيقة')->options(BeneficiaryDocument::DOCUMENT_TYPE_OPTIONS),
                 SelectFilter::make('sensitivity_level')->label('السرية')->options(BeneficiaryDocument::SENSITIVITY_LEVEL_OPTIONS),
                 SelectFilter::make('verification_status')->label('حالة التحقق')->options(BeneficiaryDocument::VERIFICATION_STATUS_OPTIONS),
-                SelectFilter::make('family_id')->label('ملف المستفيد')->relationship('family', 'name')->searchable()->preload(),
                 Filter::make('expired')
                     ->label('منتهية')
                     ->query(fn (Builder $query): Builder => $query->whereDate('expires_on', '<', now()->toDateString())),

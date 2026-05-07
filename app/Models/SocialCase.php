@@ -57,7 +57,6 @@ class SocialCase extends Model
     ];
 
     protected $fillable = [
-        'family_id',
         'beneficiary_id',
         'case_number',
         'type',
@@ -79,11 +78,6 @@ class SocialCase extends Model
             'monthly_income' => 'decimal:2',
             'monthly_expenses' => 'decimal:2',
         ];
-    }
-
-    public function family(): BelongsTo
-    {
-        return $this->belongsTo(Family::class);
     }
 
     public function beneficiary(): BelongsTo
@@ -135,16 +129,6 @@ class SocialCase extends Model
     protected static function booted(): void
     {
         static::saving(function (SocialCase $socialCase): void {
-            if ($socialCase->beneficiary_id !== null) {
-                $beneficiaryFamilyId = Beneficiary::query()
-                    ->whereKey($socialCase->beneficiary_id)
-                    ->value('family_id');
-
-                if ((int) $beneficiaryFamilyId !== (int) $socialCase->family_id) {
-                    throw new DomainException('The selected beneficiary must belong to the selected beneficiary file.');
-                }
-            }
-
             if ($socialCase->isClosed() && $socialCase->closed_at === null) {
                 $socialCase->closed_at = now()->toDateString();
             }

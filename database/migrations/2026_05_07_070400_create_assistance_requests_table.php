@@ -10,7 +10,6 @@ return new class extends Migration
     {
         Schema::create('assistance_requests', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('family_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('beneficiary_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('social_case_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('assigned_to_id')->nullable()->constrained('users')->nullOnDelete();
@@ -25,7 +24,6 @@ return new class extends Migration
             $table->text('notes')->nullable();
             $table->timestamps();
 
-            $table->index(['family_id', 'status']);
             $table->index(['beneficiary_id', 'status']);
             $table->index(['social_case_id', 'status']);
         });

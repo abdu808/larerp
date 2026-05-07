@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\SocialCases\Schemas;
 
 use App\Models\Beneficiary;
-use App\Models\Family;
 use App\Models\SocialCase;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
@@ -18,13 +17,6 @@ class SocialCaseForm
         return $schema
             ->components([
                 TextInput::make('case_number')->label('رقم الحالة')->required()->maxLength(255)->unique(ignoreRecord: true),
-                Select::make('family_id')
-                    ->label('ملف المستفيد')
-                    ->relationship('family', 'name')
-                    ->getOptionLabelFromRecordUsing(fn (Family $record): string => "{$record->code} - {$record->name}")
-                    ->searchable(['code', 'name', 'guardian_name'])
-                    ->preload()
-                    ->required(),
                 Select::make('beneficiary_id')
                     ->label('المستفيد المرتبط')
                     ->relationship('beneficiary', 'first_name')

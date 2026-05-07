@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Family;
+use App\Models\Beneficiary;
 use App\Models\SocialCase;
 use App\Models\SupportPlan;
 use App\Models\User;
@@ -20,7 +20,7 @@ class SupportPlanFactory extends Factory
         return [
             'social_case_id' => fn (): int => $this->socialCase()->id,
             'plan_type' => SupportPlan::TYPE_RELIEF,
-            'goal' => 'تغطية الاحتياج الأساسي للأسرة خلال مدة الخطة.',
+            'goal' => 'تغطية الاحتياج الأساسي لملف المستفيد خلال مدة الخطة.',
             'status' => SupportPlan::STATUS_ACTIVE,
             'owner_id' => User::factory(),
             'start_date' => now()->toDateString(),
@@ -31,14 +31,15 @@ class SupportPlanFactory extends Factory
 
     private function socialCase(): SocialCase
     {
-        $family = Family::create([
-            'code' => 'FAM-'.$this->faker->unique()->numerify('####'),
-            'name' => 'أسرة اختبار',
-            'guardian_name' => 'رب الأسرة',
+        $beneficiary = Beneficiary::create([
+            'first_name' => 'مستفيد',
+            'family_name' => 'اختبار',
+            'status' => Beneficiary::STATUS_ACTIVE,
+            'registered_at' => now()->toDateString(),
         ]);
 
         return SocialCase::create([
-            'family_id' => $family->id,
+            'beneficiary_id' => $beneficiary->id,
             'case_number' => 'SC-'.$this->faker->unique()->numerify('####'),
             'summary' => 'حالة لاختبار خطة الدعم.',
         ]);

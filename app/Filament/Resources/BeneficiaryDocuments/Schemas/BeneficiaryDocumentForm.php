@@ -5,7 +5,6 @@ namespace App\Filament\Resources\BeneficiaryDocuments\Schemas;
 use App\Models\AssistanceRequest;
 use App\Models\Beneficiary;
 use App\Models\BeneficiaryDocument;
-use App\Models\Family;
 use App\Models\SocialCase;
 use App\Models\User;
 use Filament\Forms\Components\DatePicker;
@@ -28,12 +27,6 @@ class BeneficiaryDocumentForm
                 Select::make('document_type')->label('نوع الوثيقة')->required()->options(BeneficiaryDocument::DOCUMENT_TYPE_OPTIONS)->searchable(),
                 Select::make('sensitivity_level')->label('مستوى السرية')->required()->default('internal')->options(BeneficiaryDocument::SENSITIVITY_LEVEL_OPTIONS),
                 Select::make('verification_status')->label('حالة التحقق')->required()->default(BeneficiaryDocument::STATUS_UPLOADED)->options(BeneficiaryDocument::VERIFICATION_STATUS_OPTIONS),
-                Select::make('family_id')
-                    ->label('ملف المستفيد')
-                    ->relationship('family', 'name')
-                    ->getOptionLabelFromRecordUsing(fn (Family $record): string => "{$record->code} - {$record->name}")
-                    ->searchable(['code', 'name', 'guardian_name'])
-                    ->preload(),
                 Select::make('beneficiary_id')
                     ->label('المستفيد')
                     ->relationship('beneficiary', 'first_name')

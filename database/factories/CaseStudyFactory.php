@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Beneficiary;
 use App\Models\CaseStudy;
-use App\Models\Family;
 use App\Models\SocialCase;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
@@ -19,10 +19,11 @@ class CaseStudyFactory extends Factory
     {
         return [
             'social_case_id' => SocialCase::query()->create([
-                'family_id' => Family::query()->create([
-                    'code' => fake()->unique()->bothify('FAM-####'),
-                    'name' => fake()->lastName().' family',
-                    'guardian_name' => fake()->name(),
+                'beneficiary_id' => Beneficiary::query()->create([
+                    'first_name' => fake()->firstName(),
+                    'family_name' => fake()->lastName(),
+                    'status' => Beneficiary::STATUS_ACTIVE,
+                    'registered_at' => now()->toDateString(),
                 ])->id,
                 'case_number' => fake()->unique()->bothify('SC-2026-####'),
                 'summary' => fake()->paragraph(),

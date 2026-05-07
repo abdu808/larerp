@@ -66,7 +66,6 @@ class BeneficiaryDocument extends Model
     ];
 
     protected $fillable = [
-        'family_id',
         'beneficiary_id',
         'social_case_id',
         'assistance_request_id',
@@ -95,11 +94,6 @@ class BeneficiaryDocument extends Model
             'verified_at' => 'datetime',
             'used_in_decision_at' => 'datetime',
         ];
-    }
-
-    public function family(): BelongsTo
-    {
-        return $this->belongsTo(Family::class);
     }
 
     public function beneficiary(): BelongsTo

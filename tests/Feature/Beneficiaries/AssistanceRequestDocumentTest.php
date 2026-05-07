@@ -5,7 +5,6 @@ namespace Tests\Feature\Beneficiaries;
 use App\Models\AssistanceRequest;
 use App\Models\Beneficiary;
 use App\Models\BeneficiaryDocument;
-use App\Models\Family;
 use App\Models\SocialCase;
 use App\Models\User;
 use DomainException;
@@ -18,20 +17,8 @@ class AssistanceRequestDocumentTest extends TestCase
 
     public function test_assistance_request_and_document_relationships_can_be_created(): void
     {
-        $family = Family::create([
-            'code' => 'FAM-2001',
-            'name' => 'أسرة طلب خدمة',
-            'guardian_name' => 'رب الأسرة',
-        ]);
-
-        $beneficiary = Beneficiary::create([
-            'family_id' => $family->id,
-            'first_name' => 'مستفيد',
-            'family_name' => 'اختبار',
-        ]);
-
+        $beneficiary = $this->beneficiaryFile();
         $socialCase = SocialCase::create([
-            'family_id' => $family->id,
             'beneficiary_id' => $beneficiary->id,
             'case_number' => 'SC-2026-2001',
             'summary' => 'حالة مرتبطة بطلب خدمة.',
@@ -42,7 +29,6 @@ class AssistanceRequestDocumentTest extends TestCase
         $verifiedBy = User::factory()->create();
 
         $request = AssistanceRequest::create([
-            'family_id' => $family->id,
             'beneficiary_id' => $beneficiary->id,
             'social_case_id' => $socialCase->id,
             'assigned_to_id' => $assignedTo->id,
@@ -57,7 +43,6 @@ class AssistanceRequestDocumentTest extends TestCase
         ]);
 
         $document = BeneficiaryDocument::create([
-            'family_id' => $family->id,
             'beneficiary_id' => $beneficiary->id,
             'social_case_id' => $socialCase->id,
             'assistance_request_id' => $request->id,
@@ -73,7 +58,6 @@ class AssistanceRequestDocumentTest extends TestCase
             'verified_at' => '2026-05-07 10:00:00',
         ]);
 
-        $this->assertTrue($family->is($request->family));
         $this->assertTrue($beneficiary->is($request->beneficiary));
         $this->assertTrue($socialCase->is($request->socialCase));
         $this->assertTrue($assignedTo->is($request->assignedTo));
@@ -117,5 +101,15 @@ class AssistanceRequestDocumentTest extends TestCase
         $this->assertTrue($document->refresh()->isExpired());
         $this->assertSame(BeneficiaryDocument::STATUS_EXPIRED, $document->verification_status);
         $this->assertSame('danger', BeneficiaryDocument::verificationStatusColorFor($document->verification_status));
+    }
+
+    private function beneficiaryFile(): Beneficiary
+    {
+        return Beneficiary::create([
+            'first_name' => 'مستفيد',
+            'family_name' => 'اختبار',
+            'status' => Beneficiary::STATUS_ACTIVE,
+            'registered_at' => '2026-05-07',
+        ]);
     }
 }

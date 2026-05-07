@@ -3,8 +3,8 @@
 namespace Tests\Feature\Beneficiaries;
 
 use App\Models\AssistanceRequest;
+use App\Models\Beneficiary;
 use App\Models\CaseStudy;
-use App\Models\Family;
 use App\Models\FieldVisit;
 use App\Models\NeedsAssessment;
 use App\Models\SocialCase;
@@ -21,7 +21,7 @@ class CaseStudyAssessmentVisitTest extends TestCase
     {
         [$socialCase, $researcher, $supervisor] = $this->baseRecords('SC-CASE-0001');
         $assistanceRequest = AssistanceRequest::factory()->create([
-            'family_id' => $socialCase->family_id,
+            'beneficiary_id' => $socialCase->beneficiary_id,
             'social_case_id' => $socialCase->id,
         ]);
 
@@ -33,7 +33,7 @@ class CaseStudyAssessmentVisitTest extends TestCase
             'status' => CaseStudy::STATUS_UNDER_STUDY,
             'started_at' => '2026-05-07',
             'summary' => 'Initial social study summary.',
-            'family_situation' => 'Family situation details.',
+            'family_situation' => 'Beneficiary file situation details.',
             'risk_factors' => 'Rent arrears and unstable income.',
         ]);
 
@@ -159,14 +159,15 @@ class CaseStudyAssessmentVisitTest extends TestCase
      */
     private function baseRecords(string $caseNumber): array
     {
-        $family = Family::create([
-            'code' => str_replace('SC-CASE', 'FAM', $caseNumber),
-            'name' => 'Test family',
-            'guardian_name' => 'Guardian',
+        $beneficiary = Beneficiary::create([
+            'first_name' => 'Test',
+            'family_name' => 'Beneficiary',
+            'status' => Beneficiary::STATUS_ACTIVE,
+            'registered_at' => '2026-05-07',
         ]);
 
         $socialCase = SocialCase::create([
-            'family_id' => $family->id,
+            'beneficiary_id' => $beneficiary->id,
             'case_number' => $caseNumber,
             'summary' => 'Case summary.',
         ]);

@@ -109,7 +109,6 @@ class AssistanceRequest extends Model
     ];
 
     protected $fillable = [
-        'family_id',
         'beneficiary_id',
         'social_case_id',
         'assigned_to_id',
@@ -130,11 +129,6 @@ class AssistanceRequest extends Model
             'submitted_at' => 'datetime',
             'consent_to_store_data' => 'boolean',
         ];
-    }
-
-    public function family(): BelongsTo
-    {
-        return $this->belongsTo(Family::class);
     }
 
     public function beneficiary(): BelongsTo

@@ -4,7 +4,6 @@ namespace App\Filament\Resources\AssistanceRequests\Schemas;
 
 use App\Models\AssistanceRequest;
 use App\Models\Beneficiary;
-use App\Models\Family;
 use App\Models\SocialCase;
 use App\Models\User;
 use Filament\Forms\Components\DateTimePicker;
@@ -21,12 +20,6 @@ class AssistanceRequestForm
         return $schema
             ->components([
                 TextInput::make('request_number')->label('رقم الطلب')->required()->maxLength(255)->unique(ignoreRecord: true),
-                Select::make('family_id')
-                    ->label('ملف المستفيد')
-                    ->relationship('family', 'name')
-                    ->getOptionLabelFromRecordUsing(fn (Family $record): string => "{$record->code} - {$record->name}")
-                    ->searchable(['code', 'name', 'guardian_name'])
-                    ->preload(),
                 Select::make('beneficiary_id')
                     ->label('المستفيد')
                     ->relationship('beneficiary', 'first_name')

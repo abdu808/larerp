@@ -41,7 +41,7 @@ class SocialCasesRelationManager extends RelationManager
                 CreateAction::make()
                     ->label('إضافة حالة')
                     ->mutateDataUsing(function (array $data): array {
-                        $data['family_id'] = $this->getOwnerRecord()->family_id;
+                        $data['beneficiary_id'] = $this->getOwnerRecord()->id;
 
                         return $data;
                     })

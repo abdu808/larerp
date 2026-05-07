@@ -4,7 +4,6 @@ namespace Tests\Feature\Beneficiaries;
 
 use App\Filament\Resources\Beneficiaries\BeneficiaryResource;
 use App\Models\Beneficiary;
-use App\Models\Family;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Spatie\Permission\Models\Role;
@@ -24,17 +23,11 @@ class BeneficiaryFileExperienceTest extends TestCase
 
     public function test_beneficiary_file_contains_daily_work_tabs(): void
     {
-        $file = Family::create([
-            'code' => 'BF-1001',
-            'name' => 'ملف مستفيد اختبار',
-            'guardian_name' => 'صاحب الملف',
-            'status' => Family::STATUS_ACTIVE,
-        ]);
-
         $beneficiary = Beneficiary::create([
-            'family_id' => $file->id,
             'first_name' => 'مستفيد',
             'is_primary_contact' => true,
+            'status' => Beneficiary::STATUS_ACTIVE,
+            'registered_at' => '2026-05-07',
         ]);
 
         $this->actingAs($this->superAdminUser())

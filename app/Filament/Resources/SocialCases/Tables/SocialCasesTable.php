@@ -16,7 +16,6 @@ class SocialCasesTable
         return $table
             ->columns([
                 TextColumn::make('case_number')->label('رقم الحالة')->searchable()->sortable(),
-                TextColumn::make('family.name')->label('ملف المستفيد')->searchable(),
                 TextColumn::make('beneficiary.full_name')->label('المستفيد')->placeholder('-'),
                 TextColumn::make('type')->label('النوع')->badge()->formatStateUsing(fn (?string $state): string => SocialCase::TYPE_OPTIONS[$state] ?? (string) $state),
                 TextColumn::make('status')
@@ -40,7 +39,6 @@ class SocialCasesTable
                 SelectFilter::make('status')->label('الحالة')->options(SocialCase::STATUS_OPTIONS),
                 SelectFilter::make('priority')->label('الأولوية')->options(SocialCase::PRIORITY_OPTIONS),
                 SelectFilter::make('type')->label('النوع')->options(SocialCase::TYPE_OPTIONS),
-                SelectFilter::make('family_id')->label('ملف المستفيد')->relationship('family', 'name')->searchable()->preload(),
             ])
             ->recordActions([
                 EditAction::make(),

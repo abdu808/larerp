@@ -10,7 +10,6 @@ return new class extends Migration
     {
         Schema::create('beneficiary_documents', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('family_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('beneficiary_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('social_case_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('assistance_request_id')->nullable()->constrained()->nullOnDelete();
@@ -31,7 +30,6 @@ return new class extends Migration
             $table->text('notes')->nullable();
             $table->timestamps();
 
-            $table->index(['family_id', 'document_type']);
             $table->index(['beneficiary_id', 'document_type']);
             $table->index(['assistance_request_id', 'verification_status']);
         });

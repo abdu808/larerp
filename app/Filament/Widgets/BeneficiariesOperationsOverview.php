@@ -3,7 +3,6 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Beneficiary;
-use App\Models\Family;
 use App\Models\SocialCase;
 use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\StatsOverviewWidget;
@@ -28,7 +27,7 @@ class BeneficiariesOperationsOverview extends StatsOverviewWidget
     protected function getStats(): array
     {
         return [
-            Stat::make('ملفات نشطة', $this->activeFamiliesCount())
+            Stat::make('ملفات نشطة', $this->activeBeneficiaryFilesCount())
                 ->description('ملفات المستفيدين القابلة للخدمة')
                 ->descriptionIcon(Heroicon::HomeModern)
                 ->color('success'),
@@ -63,11 +62,12 @@ class BeneficiariesOperationsOverview extends StatsOverviewWidget
         ];
     }
 
-    private function activeFamiliesCount(): int
+    private function activeBeneficiaryFilesCount(): int
     {
-        return $this->tableCount('families', function (): int {
-            return Family::query()
-                ->where('status', Family::STATUS_ACTIVE)
+        return $this->tableCount('beneficiaries', function (): int {
+            return Beneficiary::query()
+                ->whereNull('file_owner_id')
+                ->where('status', Beneficiary::STATUS_ACTIVE)
                 ->count();
         });
     }

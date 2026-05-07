@@ -16,7 +16,7 @@ use Filament\Tables\Table;
 
 class FileMembersRelationManager extends RelationManager
 {
-    protected static string $relationship = 'fileMembers';
+    protected static string $relationship = 'dependents';
 
     protected static ?string $title = 'المستفيد والتابعون';
 
@@ -34,7 +34,7 @@ class FileMembersRelationManager extends RelationManager
                 CreateAction::make()
                     ->label('إضافة تابع')
                     ->mutateDataUsing(function (array $data): array {
-                        $data['family_id'] = $this->getOwnerRecord()->family_id;
+                        $data['file_owner_id'] = $this->getOwnerRecord()->id;
 
                         return $data;
                     })

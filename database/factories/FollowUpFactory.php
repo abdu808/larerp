@@ -2,7 +2,7 @@
 
 namespace Database\Factories;
 
-use App\Models\Family;
+use App\Models\Beneficiary;
 use App\Models\FollowUp;
 use App\Models\SocialCase;
 use App\Models\User;
@@ -21,7 +21,7 @@ class FollowUpFactory extends Factory
             'social_case_id' => fn (): int => $this->socialCase()->id,
             'status' => FollowUp::STATUS_DONE,
             'followed_up_at' => now()->toDateString(),
-            'outcome' => 'تحسن وضع الأسرة بعد تنفيذ الخدمة.',
+            'outcome' => 'تحسن وضع ملف المستفيد بعد تنفيذ الخدمة.',
             'improvement_level' => 'moderate',
             'follow_up_decision' => 'schedule_follow_up',
             'next_follow_up_at' => now()->addMonth()->toDateString(),
@@ -32,14 +32,15 @@ class FollowUpFactory extends Factory
 
     private function socialCase(): SocialCase
     {
-        $family = Family::create([
-            'code' => 'FAM-'.$this->faker->unique()->numerify('####'),
-            'name' => 'أسرة اختبار',
-            'guardian_name' => 'رب الأسرة',
+        $beneficiary = Beneficiary::create([
+            'first_name' => 'مستفيد',
+            'family_name' => 'اختبار',
+            'status' => Beneficiary::STATUS_ACTIVE,
+            'registered_at' => now()->toDateString(),
         ]);
 
         return SocialCase::create([
-            'family_id' => $family->id,
+            'beneficiary_id' => $beneficiary->id,
             'case_number' => 'SC-'.$this->faker->unique()->numerify('####'),
             'summary' => 'حالة لاختبار المتابعة.',
         ]);

@@ -3,7 +3,6 @@
 namespace App\Filament\Resources\Beneficiaries\Schemas;
 
 use App\Models\Beneficiary;
-use App\Models\Family;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -17,29 +16,13 @@ class BeneficiaryForm
     {
         return $schema
             ->components([
-                Select::make('family_id')
-                    ->label('ملف المستفيد')
-                    ->relationship('family', 'name')
-                    ->getOptionLabelFromRecordUsing(fn (Family $record): string => "{$record->code} - {$record->name}")
-                    ->searchable(['code', 'name', 'guardian_name'])
+                Select::make('file_owner_id')
+                    ->label('يتبع ملف')
+                    ->relationship('fileOwner', 'first_name')
+                    ->getOptionLabelFromRecordUsing(fn (Beneficiary $record): string => $record->full_name)
+                    ->searchable(['first_name', 'father_name', 'grandfather_name', 'family_name', 'national_id'])
                     ->preload()
-                    ->createOptionForm([
-                        TextInput::make('code')->label('رقم ملف المستفيد')->required()->maxLength(255)->unique(Family::class, 'code'),
-                        TextInput::make('name')->label('اسم ملف المستفيد')->required()->maxLength(255),
-                        TextInput::make('guardian_name')->label('صاحب الملف الرئيسي')->required()->maxLength(255),
-                        TextInput::make('phone')->label('جوال صاحب الملف')->tel()->maxLength(255),
-                        TextInput::make('city')->label('المدينة')->maxLength(255),
-                        TextInput::make('district')->label('الحي')->maxLength(255),
-                        Select::make('status')->label('حالة الملف')->required()->default(Family::STATUS_ACTIVE)->options(Family::STATUS_OPTIONS),
-                        DatePicker::make('registered_at')->label('تاريخ التسجيل')->maxDate(now()),
-                        Textarea::make('address')->label('العنوان')->columnSpanFull(),
-                        Textarea::make('notes')->label('ملاحظات الملف')->columnSpanFull(),
-                    ])
-                    ->createOptionUsing(fn (array $data): int => Family::query()->create($data)->getKey())
-                    ->createOptionModalHeading('إضافة ملف مستفيد')
-                    ->createOptionAction(fn ($action) => $action->label('إضافة ملف مستفيد جديد'))
-                    ->helperText('اختر ملف المستفيد أو أنشئ ملفه من هنا. التابعون يضافون لاحقا داخل نفس الملف.')
-                    ->required(),
+                    ->helperText('اتركه فارغا إذا كان هذا هو صاحب ملف المستفيد. اختر صاحب الملف فقط عند إضافة تابع.'),
                 TextInput::make('national_id')->label('رقم الهوية')->rule('digits:10')->unique(ignoreRecord: true),
                 TextInput::make('first_name')->label('الاسم الأول')->required()->maxLength(255),
                 TextInput::make('father_name')->label('اسم الأب')->maxLength(255),
@@ -54,6 +37,12 @@ class BeneficiaryForm
                 TextInput::make('employment_status')->label('الحالة الوظيفية')->maxLength(255),
                 TextInput::make('health_status')->label('الحالة الصحية')->maxLength(255),
                 Toggle::make('is_primary_contact')->label('جهة التواصل الأساسية')->default(false),
+                Select::make('status')->label('حالة الملف')->required()->default(Beneficiary::STATUS_ACTIVE)->options(Beneficiary::STATUS_OPTIONS),
+                DatePicker::make('registered_at')->label('تاريخ التسجيل')->maxDate(now()),
+                TextInput::make('city')->label('المدينة')->maxLength(255),
+                TextInput::make('district')->label('الحي')->maxLength(255),
+                Textarea::make('address')->label('العنوان')->columnSpanFull(),
+                Textarea::make('notes')->label('ملاحظات')->columnSpanFull(),
             ]);
     }
 }

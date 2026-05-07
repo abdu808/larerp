@@ -4,7 +4,6 @@ namespace Tests\Feature\Beneficiaries;
 
 use App\Filament\Pages\BeneficiariesOperationsDashboard;
 use App\Models\Beneficiary;
-use App\Models\Family;
 use App\Models\SocialCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -36,20 +35,13 @@ class BeneficiaryOperationsDashboardTest extends TestCase
 
     public function test_dashboard_renders_available_mvp_indicators_without_optional_tables(): void
     {
-        $family = Family::create([
-            'code' => 'FAM-OPS-1',
-            'name' => 'أسرة اختبار التشغيل',
-            'guardian_name' => 'رب الأسرة',
-            'status' => Family::STATUS_ACTIVE,
-        ]);
-
         $beneficiary = Beneficiary::create([
-            'family_id' => $family->id,
             'first_name' => 'مستفيد',
+            'status' => Beneficiary::STATUS_ACTIVE,
+            'registered_at' => '2026-05-07',
         ]);
 
         SocialCase::create([
-            'family_id' => $family->id,
             'beneficiary_id' => $beneficiary->id,
             'case_number' => 'SC-OPS-1',
             'status' => SocialCase::STATUS_OPEN,

@@ -8,24 +8,9 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('families', function (Blueprint $table) {
-            $table->id();
-            $table->string('code')->unique();
-            $table->string('name');
-            $table->string('guardian_name');
-            $table->string('phone')->nullable();
-            $table->string('city')->nullable()->index();
-            $table->string('district')->nullable()->index();
-            $table->text('address')->nullable();
-            $table->string('status')->default('active')->index();
-            $table->date('registered_at')->nullable();
-            $table->text('notes')->nullable();
-            $table->timestamps();
-        });
-
         Schema::create('beneficiaries', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('family_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('file_owner_id')->nullable()->constrained('beneficiaries')->nullOnDelete();
             $table->string('national_id')->nullable()->unique();
             $table->string('first_name');
             $table->string('father_name')->nullable();
@@ -40,12 +25,17 @@ return new class extends Migration
             $table->string('employment_status')->nullable()->index();
             $table->string('health_status')->nullable();
             $table->boolean('is_primary_contact')->default(false);
+            $table->string('status')->default('active')->index();
+            $table->string('city')->nullable()->index();
+            $table->string('district')->nullable()->index();
+            $table->text('address')->nullable();
+            $table->date('registered_at')->nullable();
+            $table->text('notes')->nullable();
             $table->timestamps();
         });
 
         Schema::create('social_cases', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('family_id')->constrained()->cascadeOnDelete();
             $table->foreignId('beneficiary_id')->nullable()->constrained()->nullOnDelete();
             $table->string('case_number')->unique();
             $table->string('type')->nullable()->index();
@@ -59,7 +49,7 @@ return new class extends Migration
             $table->decimal('monthly_expenses', 12, 2)->nullable();
             $table->timestamps();
 
-            $table->index(['family_id', 'status']);
+            $table->index(['beneficiary_id', 'status']);
         });
 
         Schema::create('social_case_notes', function (Blueprint $table) {
@@ -91,6 +81,5 @@ return new class extends Migration
         Schema::dropIfExists('social_case_notes');
         Schema::dropIfExists('social_cases');
         Schema::dropIfExists('beneficiaries');
-        Schema::dropIfExists('families');
     }
 };

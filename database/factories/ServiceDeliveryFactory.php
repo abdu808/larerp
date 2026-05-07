@@ -2,8 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Beneficiary;
 use App\Models\CommitteeDecision;
-use App\Models\Family;
 use App\Models\ServiceDelivery;
 use App\Models\SocialCase;
 use App\Models\User;
@@ -41,14 +41,15 @@ class ServiceDeliveryFactory extends Factory
 
     private function socialCase(): SocialCase
     {
-        $family = Family::create([
-            'code' => 'FAM-'.$this->faker->unique()->numerify('####'),
-            'name' => 'أسرة اختبار',
-            'guardian_name' => 'رب الأسرة',
+        $beneficiary = Beneficiary::create([
+            'first_name' => 'مستفيد',
+            'family_name' => 'اختبار',
+            'status' => Beneficiary::STATUS_ACTIVE,
+            'registered_at' => now()->toDateString(),
         ]);
 
         return SocialCase::create([
-            'family_id' => $family->id,
+            'beneficiary_id' => $beneficiary->id,
             'case_number' => 'SC-'.$this->faker->unique()->numerify('####'),
             'summary' => 'حالة لاختبار تنفيذ الخدمة.',
         ]);
