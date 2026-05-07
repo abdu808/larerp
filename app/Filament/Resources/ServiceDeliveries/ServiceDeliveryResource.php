@@ -31,11 +31,11 @@ class ServiceDeliveryResource extends Resource
 
     protected static ?string $pluralModelLabel = 'تنفيذ الخدمات';
 
-    protected static ?string $navigationLabel = 'صرف وتنفيذ الخدمات';
+    protected static ?string $navigationLabel = 'تنفيذ الخدمات';
 
-    protected static string|UnitEnum|null $navigationGroup = '5. التنفيذ والمتابعة';
+    protected static string|UnitEnum|null $navigationGroup = 'المستفيدون والملفات الاجتماعية';
 
-    protected static ?int $navigationSort = 20;
+    protected static ?int $navigationSort = 33;
 
     public static function form(Schema $schema): Schema
     {

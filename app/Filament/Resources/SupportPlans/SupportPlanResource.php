@@ -32,9 +32,9 @@ class SupportPlanResource extends Resource
 
     protected static ?string $navigationLabel = 'خطط الدعم';
 
-    protected static string|UnitEnum|null $navigationGroup = '5. التنفيذ والمتابعة';
+    protected static string|UnitEnum|null $navigationGroup = 'المستفيدون والملفات الاجتماعية';
 
-    protected static ?int $navigationSort = 10;
+    protected static ?int $navigationSort = 32;
 
     public static function form(Schema $schema): Schema
     {

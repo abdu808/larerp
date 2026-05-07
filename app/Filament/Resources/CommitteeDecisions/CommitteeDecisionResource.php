@@ -33,9 +33,9 @@ class CommitteeDecisionResource extends Resource
 
     protected static ?string $navigationLabel = 'قرارات اللجنة';
 
-    protected static string|UnitEnum|null $navigationGroup = '4. الدراسة والاعتماد';
+    protected static string|UnitEnum|null $navigationGroup = 'المستفيدون والملفات الاجتماعية';
 
-    protected static ?int $navigationSort = 40;
+    protected static ?int $navigationSort = 31;
 
     public static function form(Schema $schema): Schema
     {

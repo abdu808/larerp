@@ -27,9 +27,9 @@ class BeneficiaryDocumentResource extends Resource
 
     protected static ?string $navigationLabel = 'وثائق المستفيدين';
 
-    protected static string|UnitEnum|null $navigationGroup = '3. ملفات المستفيدين';
+    protected static string|UnitEnum|null $navigationGroup = 'المستفيدون والملفات الاجتماعية';
 
-    protected static ?int $navigationSort = 30;
+    protected static ?int $navigationSort = 21;
 
     public static function form(Schema $schema): Schema
     {

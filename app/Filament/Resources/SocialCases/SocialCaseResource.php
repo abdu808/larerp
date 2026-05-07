@@ -19,17 +19,17 @@ class SocialCaseResource extends Resource
 {
     protected static ?string $model = SocialCase::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedFolderOpen;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $modelLabel = 'حالة اجتماعية';
 
     protected static ?string $pluralModelLabel = 'الحالات الاجتماعية';
 
-    protected static ?string $navigationLabel = 'ملفات الحالات';
+    protected static ?string $navigationLabel = 'الحالات الاجتماعية';
 
-    protected static string|UnitEnum|null $navigationGroup = '3. ملفات المستفيدين';
+    protected static string|UnitEnum|null $navigationGroup = 'المستفيدون والملفات الاجتماعية';
 
-    protected static ?int $navigationSort = 40;
+    protected static ?int $navigationSort = 22;
 
     public static function form(Schema $schema): Schema
     {
