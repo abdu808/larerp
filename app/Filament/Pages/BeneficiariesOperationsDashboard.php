@@ -7,16 +7,19 @@ use Filament\Pages\Dashboard;
 use Filament\Support\Icons\Heroicon;
 use Filament\Widgets\Widget;
 use Filament\Widgets\WidgetConfiguration;
+use UnitEnum;
 
 class BeneficiariesOperationsDashboard extends Dashboard
 {
     protected static string $routePath = 'beneficiaries-operations';
 
-    protected static ?string $navigationLabel = 'تشغيل المستفيدين';
+    protected static ?string $navigationLabel = 'لوحة المستفيدين';
 
     protected static string|\BackedEnum|null $navigationIcon = Heroicon::ChartBar;
 
-    protected static ?int $navigationSort = 20;
+    protected static string|UnitEnum|null $navigationGroup = '1. تشغيل القسم';
+
+    protected static ?int $navigationSort = 10;
 
     protected static ?string $title = 'لوحة تشغيل المستفيدين';
 

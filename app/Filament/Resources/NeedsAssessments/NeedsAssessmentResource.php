@@ -25,11 +25,11 @@ class NeedsAssessmentResource extends Resource
 
     protected static ?string $pluralModelLabel = 'تقييمات الاحتياج';
 
-    protected static ?string $navigationLabel = 'تقييمات الاحتياج';
+    protected static ?string $navigationLabel = 'تقييم الاحتياج';
 
-    protected static string|UnitEnum|null $navigationGroup = 'المستفيدون والملفات الاجتماعية';
+    protected static string|UnitEnum|null $navigationGroup = '4. الدراسة والاعتماد';
 
-    protected static ?int $navigationSort = 31;
+    protected static ?int $navigationSort = 20;
 
     public static function form(Schema $schema): Schema
     {

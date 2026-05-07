@@ -25,11 +25,11 @@ class CaseStudyResource extends Resource
 
     protected static ?string $pluralModelLabel = 'دراسات الحالات';
 
-    protected static ?string $navigationLabel = 'دراسات الحالات';
+    protected static ?string $navigationLabel = 'الدراسات الاجتماعية';
 
-    protected static string|UnitEnum|null $navigationGroup = 'المستفيدون والملفات الاجتماعية';
+    protected static string|UnitEnum|null $navigationGroup = '4. الدراسة والاعتماد';
 
-    protected static ?int $navigationSort = 30;
+    protected static ?int $navigationSort = 10;
 
     public static function form(Schema $schema): Schema
     {

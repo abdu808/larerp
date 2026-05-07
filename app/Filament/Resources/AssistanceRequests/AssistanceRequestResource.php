@@ -19,17 +19,17 @@ class AssistanceRequestResource extends Resource
 {
     protected static ?string $model = AssistanceRequest::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboardDocumentList;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedInboxStack;
 
     protected static ?string $modelLabel = 'طلب خدمة';
 
     protected static ?string $pluralModelLabel = 'طلبات الخدمة';
 
-    protected static ?string $navigationLabel = 'طلبات الخدمة';
+    protected static ?string $navigationLabel = 'استقبال الطلبات';
 
-    protected static string|UnitEnum|null $navigationGroup = 'المستفيدون والملفات الاجتماعية';
+    protected static string|UnitEnum|null $navigationGroup = '2. الاستقبال والفرز';
 
-    protected static ?int $navigationSort = 20;
+    protected static ?int $navigationSort = 10;
 
     public static function form(Schema $schema): Schema
     {

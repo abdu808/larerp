@@ -19,17 +19,17 @@ class FamilyResource extends Resource
 {
     protected static ?string $model = Family::class;
 
-    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
+    protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedHomeModern;
 
     protected static ?string $modelLabel = 'عائلة';
 
     protected static ?string $pluralModelLabel = 'العائلات';
 
-    protected static ?string $navigationLabel = 'العائلات';
+    protected static ?string $navigationLabel = 'الأسر';
 
-    protected static string|UnitEnum|null $navigationGroup = 'المستفيدون والملفات الاجتماعية';
+    protected static string|UnitEnum|null $navigationGroup = '3. ملفات المستفيدين';
 
-    protected static ?int $navigationSort = 20;
+    protected static ?int $navigationSort = 10;
 
     public static function form(Schema $schema): Schema
     {

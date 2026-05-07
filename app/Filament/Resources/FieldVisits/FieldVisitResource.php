@@ -25,11 +25,11 @@ class FieldVisitResource extends Resource
 
     protected static ?string $pluralModelLabel = 'الزيارات';
 
-    protected static ?string $navigationLabel = 'الزيارات';
+    protected static ?string $navigationLabel = 'الزيارات الميدانية';
 
-    protected static string|UnitEnum|null $navigationGroup = 'المستفيدون والملفات الاجتماعية';
+    protected static string|UnitEnum|null $navigationGroup = '4. الدراسة والاعتماد';
 
-    protected static ?int $navigationSort = 32;
+    protected static ?int $navigationSort = 30;
 
     public static function form(Schema $schema): Schema
     {

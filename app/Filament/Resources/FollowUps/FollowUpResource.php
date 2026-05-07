@@ -32,9 +32,9 @@ class FollowUpResource extends Resource
 
     protected static ?string $navigationLabel = 'المتابعات';
 
-    protected static string|UnitEnum|null $navigationGroup = 'المستفيدون والملفات الاجتماعية';
+    protected static string|UnitEnum|null $navigationGroup = '5. التنفيذ والمتابعة';
 
-    protected static ?int $navigationSort = 34;
+    protected static ?int $navigationSort = 30;
 
     public static function form(Schema $schema): Schema
     {
