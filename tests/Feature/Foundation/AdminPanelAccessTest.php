@@ -28,7 +28,8 @@ class AdminPanelAccessTest extends TestCase
 
         $this->actingAs($user)
             ->get('/admin')
-            ->assertOk();
+            ->assertOk()
+            ->assertSee('لوحة تشغيل LarERP');
     }
 
     public function test_regular_user_cannot_access_filament_admin_panel(): void
