@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Users\Tables;
 
+use App\Filament\Resources\Users\UserResource;
 use App\Models\User;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\EditAction;
@@ -42,7 +43,7 @@ class UsersTable
             ->recordActions([
                 EditAction::make(),
                 DeleteAction::make()
-                    ->visible(fn (User $record): bool => auth()->id() !== $record->getKey()),
+                    ->visible(fn (User $record): bool => UserResource::canDelete($record)),
             ])
             ->toolbarActions([]);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Permissions\Schemas;
 
+use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 
@@ -16,11 +17,10 @@ class PermissionForm
                     ->required()
                     ->unique(ignoreRecord: true)
                     ->maxLength(255),
-                TextInput::make('guard_name')
+                Hidden::make('guard_name')
                     ->label('الحارس')
                     ->required()
-                    ->default('web')
-                    ->maxLength(255),
+                    ->default('web'),
             ]);
     }
 }

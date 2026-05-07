@@ -43,12 +43,16 @@ class RoleResource extends Resource
 
     public static function canEdit($record): bool
     {
-        return auth()->user()?->can('roles.manage') ?? false;
+        $user = auth()->user();
+
+        return ($user?->can('roles.manage') ?? false)
+            && ($record->name !== 'Super Admin' || $user->hasRole('Super Admin'));
     }
 
     public static function canDelete($record): bool
     {
-        return auth()->user()?->can('roles.manage') ?? false;
+        return (auth()->user()?->can('roles.manage') ?? false)
+            && ! in_array($record->name, ['Super Admin', 'Admin'], strict: true);
     }
 
     public static function form(Schema $schema): Schema

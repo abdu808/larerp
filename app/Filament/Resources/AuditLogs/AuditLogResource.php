@@ -28,6 +28,16 @@ class AuditLogResource extends Resource
 
     protected static ?int $navigationSort = 90;
 
+    public static function canViewAny(): bool
+    {
+        return auth()->user()?->can('audit_logs.view') ?? false;
+    }
+
+    public static function canView($record): bool
+    {
+        return auth()->user()?->can('audit_logs.view') ?? false;
+    }
+
     public static function canCreate(): bool
     {
         return false;
