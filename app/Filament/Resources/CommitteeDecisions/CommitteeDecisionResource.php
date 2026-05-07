@@ -25,6 +25,8 @@ class CommitteeDecisionResource extends Resource
 {
     protected static ?string $model = CommitteeDecision::class;
 
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCheckCircle;
 
     protected static ?string $modelLabel = 'قرار لجنة';

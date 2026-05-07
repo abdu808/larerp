@@ -19,6 +19,8 @@ class SocialCaseAttachmentResource extends Resource
 {
     protected static ?string $model = SocialCaseAttachment::class;
 
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $modelLabel = 'مرفق حالة';

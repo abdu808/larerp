@@ -19,6 +19,8 @@ class SocialCaseResource extends Resource
 {
     protected static ?string $model = SocialCase::class;
 
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static ?string $modelLabel = 'حالة اجتماعية';

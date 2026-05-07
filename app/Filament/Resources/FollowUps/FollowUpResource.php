@@ -24,6 +24,8 @@ class FollowUpResource extends Resource
 {
     protected static ?string $model = FollowUp::class;
 
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalendarDays;
 
     protected static ?string $modelLabel = 'متابعة';

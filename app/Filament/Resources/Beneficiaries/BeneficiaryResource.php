@@ -5,6 +5,9 @@ namespace App\Filament\Resources\Beneficiaries;
 use App\Filament\Resources\Beneficiaries\Pages\CreateBeneficiary;
 use App\Filament\Resources\Beneficiaries\Pages\EditBeneficiary;
 use App\Filament\Resources\Beneficiaries\Pages\ListBeneficiaries;
+use App\Filament\Resources\Beneficiaries\RelationManagers\DocumentsRelationManager;
+use App\Filament\Resources\Beneficiaries\RelationManagers\FileMembersRelationManager;
+use App\Filament\Resources\Beneficiaries\RelationManagers\SocialCasesRelationManager;
 use App\Filament\Resources\Beneficiaries\Schemas\BeneficiaryForm;
 use App\Filament\Resources\Beneficiaries\Tables\BeneficiariesTable;
 use App\Models\Beneficiary;
@@ -39,6 +42,15 @@ class BeneficiaryResource extends Resource
     public static function table(Table $table): Table
     {
         return BeneficiariesTable::configure($table);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            FileMembersRelationManager::class,
+            SocialCasesRelationManager::class,
+            DocumentsRelationManager::class,
+        ];
     }
 
     public static function getPages(): array

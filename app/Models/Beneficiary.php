@@ -60,6 +60,16 @@ class Beneficiary extends Model
         return $this->hasMany(SocialCase::class);
     }
 
+    public function documents(): HasMany
+    {
+        return $this->hasMany(BeneficiaryDocument::class);
+    }
+
+    public function fileMembers(): HasMany
+    {
+        return $this->hasMany(self::class, 'family_id', 'family_id');
+    }
+
     public function getFullNameAttribute(): string
     {
         return collect([

@@ -19,6 +19,8 @@ class NeedsAssessmentResource extends Resource
 {
     protected static ?string $model = NeedsAssessment::class;
 
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedScale;
 
     protected static ?string $modelLabel = 'تقييم احتياج';

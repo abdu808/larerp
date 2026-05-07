@@ -19,6 +19,8 @@ class BeneficiaryDocumentResource extends Resource
 {
     protected static ?string $model = BeneficiaryDocument::class;
 
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentText;
 
     protected static ?string $modelLabel = 'وثيقة مستفيد';

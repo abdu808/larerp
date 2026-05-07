@@ -24,6 +24,8 @@ class SupportPlanResource extends Resource
 {
     protected static ?string $model = SupportPlan::class;
 
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboardDocumentList;
 
     protected static ?string $modelLabel = 'خطة دعم';

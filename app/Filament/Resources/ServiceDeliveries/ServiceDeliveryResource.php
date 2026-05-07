@@ -25,6 +25,8 @@ class ServiceDeliveryResource extends Resource
 {
     protected static ?string $model = ServiceDelivery::class;
 
+    protected static bool $shouldRegisterNavigation = false;
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedTruck;
 
     protected static ?string $modelLabel = 'تنفيذ خدمة';
