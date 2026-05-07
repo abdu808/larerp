@@ -1,34 +1,67 @@
 # متطلبات بيئة التطوير والتشغيل
 
-## البيئة المطلوبة لبناء Laravel
+## البيئة المطلوبة
 
-حتى يتم إنشاء وتشغيل مشروع Laravel فعليا، يجب توفر واحد من الخيارين:
-
-### الخيار 1: تشغيل محلي
+### تشغيل محلي
 
 - PHP 8.3 أو أحدث.
 - Composer.
 - Node.js 22 أو أحدث.
 - npm.
-- PostgreSQL 16 أو أحدث.
+- PostgreSQL 16 أو أحدث للبيئة المستهدفة.
 - Redis اختياري للـ queues/cache.
 
-### الخيار 2: تشغيل بالحاويات
+امتدادات PHP المطلوبة:
+
+- `zip`
+- `pdo_pgsql`
+- `pgsql`
+- `mbstring`
+- `openssl`
+- `fileinfo`
+- `pdo`
+- `tokenizer`
+- `xml`
+- `ctype`
+- `json`
+- `bcmath`
+- `curl`
+
+### تشغيل بالحاويات
 
 - Docker.
 - Docker Compose.
 
-يفضل هذا الخيار لاحقا لأنه يجعل تشغيل نسخ الجمعيات المستقلة أسهل وأكثر انتظاما.
+هذا الخيار هو الأنسب لاحقا عند تجهيز نسخة مستقلة لكل جمعية، لأنه يجعل نشر قواعد البيانات والتخزين والخدمات المساندة أكثر انتظاما.
 
-## ملاحظة عن هذه البيئة
+## البيئة المستخدمة حاليا
 
-في بيئة العمل الحالية:
+تم الاعتماد على Laragon في جهاز التطوير الحالي:
 
-- Git موجود.
-- Node.js و npm موجودان.
-- PHP غير موجود.
-- Composer غير موجود.
-- Docker غير موجود.
+- PHP: `C:\laragon\bin\php\php-8.3.30-Win32-vs16-x64\php.exe`
+- Composer PHAR: `C:\laragon\bin\composer\composer.phar`
+- Apache و Mailpit متوفران من Laragon.
+- MySQL متوفر لكنه ليس قاعدة البيانات المستهدفة.
 
-لذلك تم تجهيز المستودع والوثائق أولا، وسيتم إنشاء Laravel فعليا عند توفر PHP/Composer أو Docker.
+تم تفعيل الامتدادات التالية في `php.ini`:
 
+- `zip`
+- `pdo_pgsql`
+- `pgsql`
+
+Docker ليس متطلبا لإكمال مرحلة Foundation الحالية، لكنه سيعود كجزء مهم في مرحلة Productization and Deployment.
+
+## قاعدة البيانات
+
+الهدف النهائي هو PostgreSQL. أثناء الاختبارات الآلية نستخدم SQLite داخل الذاكرة لسرعة الاختبارات وعدم ربطها ببيئة خارجية.
+
+إعداد PostgreSQL المقترح في `.env`:
+
+```env
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=larerp
+DB_USERNAME=postgres
+DB_PASSWORD=
+```

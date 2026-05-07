@@ -1,82 +1,55 @@
-# تجهيز Phase 1: إنشاء Laravel Foundation
+# تجهيز Phase 1: Laravel Foundation
 
 ## الهدف
 
-الانتقال من مرحلة الوثائق والتصميم إلى إنشاء مشروع Laravel فعلي داخل المستودع.
+الانتقال من مرحلة الوثائق والتصميم إلى تطبيق Laravel فعلي داخل المستودع، ثم بناء أساس إداري ثابت يمكن أن تبنى عليه بقية الموديولات.
 
-## المتطلب السابق
+## الحالة الحالية
 
-يجب توفر أحد الخيارين:
+تم تنفيذ bootstrap الأولي بنجاح:
 
-### خيار محلي
+- Laravel Framework 12.58.0.
+- Filament v5.6.2.
+- Spatie Laravel Permission v7.4.1.
+- لوحة الإدارة على `/admin`.
+- إعدادات الجمعية.
+- سجل التدقيق.
+- Seeder للمستخدم الإداري.
+- اختبارات أساسية.
 
-- PHP 8.3+
-- Composer
-- Node.js
-- PostgreSQL
-
-### خيار Docker
-
-- Docker
-- Docker Compose
-
-## أمر إنشاء Laravel عند توفر Composer
-
-يجب تنفيذ الأمر من داخل جذر المستودع:
+## أوامر التشغيل والتحقق
 
 ```bash
-composer create-project laravel/laravel:^12.0 .
+composer install
+npm install
+php artisan migrate:fresh --seed
+npm run build
+php artisan test
 ```
 
-إذا لم يكن Laravel 12 متاحا أو لم يكن مستقرا عند التنفيذ، يستخدم أحدث إصدار Laravel مستقر.
+## بيانات الدخول التجريبية
 
-## حزم Foundation المقترحة
-
-بعد إنشاء Laravel:
-
-```bash
-composer require filament/filament
-composer require spatie/laravel-permission
+```text
+Email: admin@larerp.local
+Password: password
 ```
 
-ثم:
+## Checklist القبول
 
-```bash
-php artisan filament:install --panels
-php artisan migrate
-```
-
-## إعداد PostgreSQL
-
-في ملف `.env`:
-
-```env
-DB_CONNECTION=pgsql
-DB_HOST=127.0.0.1
-DB_PORT=5432
-DB_DATABASE=larerp
-DB_USERNAME=postgres
-DB_PASSWORD=
-```
-
-## Checklist قبل بدء الكود
-
-- التأكد من أن الفرع الحالي `develop`.
-- إنشاء فرع `feature/foundation`.
-- إنشاء Laravel داخل المستودع.
-- ضبط `.env.example` بدون أسرار.
-- تشغيل صفحة Laravel الافتراضية.
-- تثبيت Filament.
-- تثبيت Spatie Permission.
-- إنشاء أول migration خاص بإعدادات الجمعية.
-- إنشاء أول Admin user seeder.
-- توثيق أي قرار جديد في docs.
-
-## معيار قبول Phase 1 الأولي
-
-- `php artisan test` يعمل.
+- Laravel يعمل داخل المستودع.
+- Filament مثبت ويعرض لوحة الإدارة.
+- Spatie Permission مثبت ومربوط بالمستخدمين.
+- يوجد دور `Super Admin` ودور `Admin`.
+- لا يدخل لوحة الإدارة إلا مستخدم مصرح له.
+- يوجد سجل إعدادات جمعية أولي.
+- يوجد أساس لسجل التدقيق.
 - `php artisan migrate:fresh --seed` يعمل.
-- لوحة Filament تعمل.
-- يوجد مستخدم إداري تجريبي.
-- PostgreSQL متصل.
+- `php artisan test` يعمل.
+- `npm run build` يعمل.
 
+## المتبقي في Phase 1
+
+- توسيع إدارة المستخدمين والأدوار والصلاحيات داخل Filament.
+- تحسين سجل التدقيق وربطه بالأحداث الحساسة.
+- اعتماد PostgreSQL محليا أو عبر Docker عند الانتقال لتجربة نشر أقرب للإنتاج.
+- إضافة أول موديول عملي بعد Foundation: المستفيدون والملفات الاجتماعية.
