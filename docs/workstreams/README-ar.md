@@ -15,7 +15,4 @@
 - `donations-store-workstream-ar.md`
 - `finance-inventory-workstream-ar.md`
 - `governance-archive-workstream-ar.md`
-
-المسارات التالية:
-
 - `reports-qa-devops-workstream-ar.md`

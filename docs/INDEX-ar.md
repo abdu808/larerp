@@ -17,11 +17,13 @@
 - [Projects, Donations and Store](workstreams/donations-store-workstream-ar.md)
 - [Finance and Inventory](workstreams/finance-inventory-workstream-ar.md)
 - [Governance and Archive](workstreams/governance-archive-workstream-ar.md)
+- [Reports, QA and DevOps](workstreams/reports-qa-devops-workstream-ar.md)
 
 ## التشغيل والتنظيم
 
 - [متطلبات البيئة](operations/environment-requirements-ar.md)
 - [تنظيم العمل بين القائد والوكلاء](operations/agent-orchestration-ar.md)
+- [استراتيجية Git والفروع](operations/git-workflow-ar.md)
 
 ## حالة المشروع
 
