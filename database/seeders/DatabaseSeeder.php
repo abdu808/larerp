@@ -27,6 +27,10 @@ class DatabaseSeeder extends Seeder
             'foundation.manage',
             'users.view',
             'users.manage',
+            'roles.view',
+            'roles.manage',
+            'permissions.view',
+            'permissions.manage',
             'settings.view',
             'settings.manage',
             'audit_logs.view',
@@ -45,6 +49,8 @@ class DatabaseSeeder extends Seeder
         $admin->syncPermissions([
             'foundation.view',
             'users.view',
+            'roles.view',
+            'permissions.view',
             'settings.view',
             'audit_logs.view',
         ]);
